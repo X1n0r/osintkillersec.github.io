@@ -122,21 +122,22 @@
       flex-direction: column;
       gap: 4px;
       overflow-y: auto;
-      max-height: calc(100vh - 280px);
-      padding-right: 4px;
+      max-height: calc(100vh - 300px);
+      padding-right: 8px;
     }
 
     .nav::-webkit-scrollbar {
-      width: 4px;
+      width: 6px;
     }
 
     .nav::-webkit-scrollbar-track {
-      background: transparent;
+      background: var(--bg-tertiary);
+      border-radius: 3px;
     }
 
     .nav::-webkit-scrollbar-thumb {
       background: var(--border-light);
-      border-radius: 2px;
+      border-radius: 3px;
     }
 
     .nav::-webkit-scrollbar-thumb:hover {
