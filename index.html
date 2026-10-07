@@ -1554,6 +1554,7 @@
       padding: 24px;
       margin-bottom: 32px;
       display: none;
+      animation: fadeIn 0.3s ease-out;
     }
 
     .admin-dashboard.visible {
@@ -2900,14 +2901,17 @@
       const isAuth = localStorage.getItem('osint_auth');
       const user = localStorage.getItem('osint_user');
       const overlay = document.getElementById('overlay');
+      console.log('checkAuth - isAuth:', isAuth, 'user:', user);
+
       if (isAuth === 'true') {
         loginModal.classList.remove('open');
         app.classList.remove('hidden');
         overlay.classList.remove('open');
 
-        // Show admin button if user is killer
-        if (user === 'killer') {
-          showAdminButton();
+        // Show admin button if user is killer or root
+        if (user === 'killer' || user === 'root') {
+          console.log('Showing admin button for user:', user);
+          setTimeout(() => showAdminButton(), 100);
         }
       } else {
         loginModal.classList.add('open');
@@ -2950,14 +2954,18 @@
     // Admin Dashboard
     function showAdminButton() {
       const adminBtn = document.getElementById('admin-btn');
+      console.log('showAdminButton called, adminBtn:', adminBtn);
       if (adminBtn) {
         adminBtn.style.display = 'block';
+        console.log('Admin button shown');
       }
     }
 
     document.getElementById('admin-btn').addEventListener('click', () => {
       const dashboard = document.getElementById('admin-dashboard');
+      console.log('Admin button clicked, dashboard:', dashboard);
       dashboard.classList.toggle('visible');
+      console.log('Dashboard visible:', dashboard.classList.contains('visible'));
       if (dashboard.classList.contains('visible')) {
         loadAdminData();
       }
