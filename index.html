@@ -121,6 +121,26 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
+      overflow-y: auto;
+      max-height: calc(100vh - 280px);
+      padding-right: 4px;
+    }
+
+    .nav::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .nav::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .nav::-webkit-scrollbar-thumb {
+      background: var(--border-light);
+      border-radius: 2px;
+    }
+
+    .nav::-webkit-scrollbar-thumb:hover {
+      background: var(--text-muted);
     }
     
     .nav-label {
