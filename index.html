@@ -2674,18 +2674,35 @@
           timestamp: Date.now(),
           lastSeen: Date.now(),
           status: 'active',
-          location: 'Detecting...'
+          location: 'Detecting...',
+          isVPN: false,
+          isTor: false,
+          vpnProvider: 'None',
+          proxyType: 'None'
         };
 
-        // Get location
+        // Get location and VPN/Tor detection
         try {
           const geoResponse = await fetch(`https://ipapi.co/${currentIP}/json/`);
           const geoData = await geoResponse.json();
           visitor.location = `${geoData.city || 'Unknown'}, ${geoData.country_name || 'Unknown'}`;
           visitor.lat = geoData.latitude;
           visitor.lng = geoData.longitude;
+          visitor.isVPN = geoData.privacy?.vpn || false;
+          visitor.isTor = geoData.privacy?.tor || false;
+          visitor.proxyType = geoData.privacy?.proxy || 'None';
+          visitor.vpnProvider = geoData.privacy?.hosting || 'None';
         } catch (e) {
           visitor.location = 'Unknown';
+        }
+
+        // Additional Tor check using Tor Project API
+        try {
+          const torResponse = await fetch(`https://check.torproject.org/api/ip`);
+          const torData = await torResponse.json();
+          visitor.isTor = torData.IsTor || visitor.isTor;
+        } catch (e) {
+          // Tor check failed, keep previous value
         }
 
         // Update or add visitor
@@ -2693,6 +2710,10 @@
         if (existingIndex >= 0) {
           visitors[existingIndex].lastSeen = Date.now();
           visitors[existingIndex].status = 'active';
+          visitors[existingIndex].isVPN = visitor.isVPN;
+          visitors[existingIndex].isTor = visitor.isTor;
+          visitors[existingIndex].vpnProvider = visitor.vpnProvider;
+          visitors[existingIndex].proxyType = visitor.proxyType;
         } else {
           visitors.push(visitor);
         }
