@@ -2653,8 +2653,7 @@
 
     // Visitor tracking system
     let visitors = JSON.parse(localStorage.getItem('osint_visitors') || '[]');
-    // Encrypted banned IPs (base64 encoded: ["128.127.118.222"])
-    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || atob('WyIxMjguMTI3LjExOC4yMjIiXQ=='));
+    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || '[]');
 
     // Track current visitor
     async function trackVisitor() {

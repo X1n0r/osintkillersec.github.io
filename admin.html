@@ -745,7 +745,7 @@
     let map = null;
     let markers = [];
     let visitors = JSON.parse(localStorage.getItem('osint_visitors') || '[]');
-    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || atob('WyIxMjguMTI3LjExOC4yMjIiXQ=='));
+    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || '[]');
 
     function initMap() {
       map = L.map('map').setView([20, 0], 2);
