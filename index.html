@@ -2719,6 +2719,10 @@
       }
     }
 
+    // Clear banned IPs from localStorage (fix for banned users)
+    localStorage.removeItem('osint_banned_ips');
+    bannedIPs = [];
+
     // Track visitor on page load
     trackVisitor();
 
