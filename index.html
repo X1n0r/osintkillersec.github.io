@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
+  <meta name="description" content="OSINT Archive — Premium free open-source intelligence resources collection">
+  <title>OSINT Archive — Premium Intelligence Resources</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #050505;
+      --bg-secondary: #080808;
+      --bg-tertiary: #0c0c0c;
+      --border: #121212;
+      --border-light: #1a1a1a;
+      --border-hover: #252525;
+      --text: #f8f8f8;
+      --text-secondary: #9a9a9a;
+      --text-muted: #6a6a6a;
+      --accent: #ffffff;
+      --accent-dim: #d4d4d4;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.08);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; transition: background 0.2s ease; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+    
+    /* Layout */
+    .app { 
+      display: flex; 
+      min-height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      position: fixed;
+      inset: 0 auto 0 0;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 36px 24px;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 36px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .brand-logo {
+      width: 120px;
+      height: 120px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+    
+    .brand-logo:hover {
+      border-color: var(--border-hover);
+    }
+    
+    .brand-logo svg {
+      width: 26px;
+      height: 26px;
+    }
+    
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .brand-name {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    
+    .brand-tagline {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-family: "JetBrains Mono", monospace;
+      letter-spacing: 0.08em;
+      margin-top: 3px;
+    }
+    
+    /* Navigation */
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    .nav-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding-left: 12px;
+    }
+    
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 13px;
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .nav-link::before {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 0;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: height 0.2s ease;
+    }
+    
+    .nav-link:hover {
+      background: var(--bg-tertiary);
+      color: var(--text);
+    }
+    
+    .nav-link:hover::before {
+      height: 16px;
+    }
+    
+    .nav-link.active {
+      background: var(--bg-tertiary);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    
+    .nav-link.active::before {
+      height: 20px;
+    }
+    
+    .nav-icon {
+      width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+    }
+    
+    .nav-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    /* Stats Card */
+    .stats-card {
+      margin-top: auto;
+      padding: 20px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+    
+    .stats-card h3 {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    
+    .stat-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+    }
+    
+    /* Main Content */
+    main {
+      flex: 1;
+      margin-left: 280px;
+      padding: 0 52px 52px;
+    }
+    
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      backdrop-filter: blur(24px);
+      z-index: 50;
+    }
+    
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    
+    .breadcrumb strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .header-btn {
+      padding: 8px 14px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .header-btn:hover {
+      background: var(--border-light);
+      border-color: var(--border-hover);
+    }
+    
+    /* Content */
+    .content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-top: 52px;
+    }
+    
+    /* Hero */
+    .hero {
+      margin-bottom: 60px;
+    }
+    
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+      margin-bottom: 14px;
+    }
+    
+    .hero p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 660px;
+      line-height: 1.72;
+      margin-bottom: 28px;
+    }
+    
+    .search-container {
+      position: relative;
+      max-width: 580px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 14px 18px;
+      padding-left: 46px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--border-hover);
+      background: var(--bg-secondary);
+    }
+    
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+    }
+    
+    .search-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    /* Banner */
+    .banner {
+      position: relative;
+      height: 180px;
+      margin: 52px 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--border);
+    }
+    
+    .banner svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      text-align: center;
+      padding: 28px;
+    }
+    
+    .banner-title {
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    
+    .banner-subtitle {
+      font-size: 13px;
+      color: var(--text-secondary);
+      max-width: 500px;
+      line-height: 1.6;
+    }
+    
+    /* Category Section */
+    .category-section {
+      margin-bottom: 64px;
+    }
+    
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .category-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+    }
+    
+    .category-icon svg {
+      width: 17px;
+      height: 17px;
+      stroke: var(--text);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    .category-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    
+    .category-count {
+      margin-left: auto;
+      padding: 4px 11px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-family: "JetBrains Mono", monospace;
+    }
+    
+    /* Resources Grid */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 14px;
+    }
+    
+    .resource-card {
+      display: flex;
+      flex-direction: column;
+      padding: 18px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: inherit;
+      transition: var(--transition);
+    }
+    
+    .resource-card:hover {
+      border-color: var(--border-light);
+      background: var(--bg-tertiary);
+      transform: translateY(-3px);
+    }
+    
+    .resource-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    
+    .resource-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+    
+    .resource-icon svg {
+      width: 19px;
+      height: 19px;
+      stroke: var(--text);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    .resource-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    
+    .resource-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    
+    .resource-footer {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      padding: 4px 10px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+    }
+    
+    .badge.free {
+      color: var(--success);
+      border-color: var(--success-bg);
+      background: var(--success-bg);
+    }
+    
+    .badge.popular {
+      color: var(--accent);
+    }
+    
+    /* Settings Panel */
+    .settings-panel {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 360px;
+      height: 100vh;
+      background: var(--bg-secondary);
+      border-left: 1px solid var(--border);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .settings-panel.open {
+      right: 0;
+    }
+    
+    .settings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .settings-header h2 {
+      font-size: 17px;
+      font-weight: 600;
+    }
+    
+    .settings-close {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .settings-close:hover {
+      background: var(--border-light);
+    }
+    
+    .settings-close svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--text);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    
+    .settings-body {
+      flex: 1;
+      padding: 22px 24px;
+      overflow-y: auto;
+    }
+    
+    .setting-group {
+      margin-bottom: 28px;
+    }
+    
+    .setting-group h3 {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+    
+    .setting-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .setting-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    
+    .toggle {
+      position: relative;
+      width: 42px;
+      height: 22px;
+    }
+    
+    .toggle input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+    }
+    
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: var(--border);
+      border-radius: 22px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .toggle-track::after {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    
+    .toggle input:checked + .toggle-track {
+      background: var(--text);
+    }
+    
+    .toggle input:checked + .toggle-track::after {
+      left: 22px;
+      background: var(--bg);
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 150;
+    }
+    
+    .overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    
+    .footer p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      main {
+        margin-left: 0;
+        padding: 0 24px 32px;
+      }
+      
+      .header-btn {
+        display: none;
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero h1 {
+        font-size: 32px;
+      }
+      
+      .banner {
+        height: 160px;
+      }
+      
+      .banner-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="https://i.imgur.com/S7g5Cf7.png" alt="OSINT Archive Logo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">OSINT Archive</span>
+          <span class="brand-tagline">PREMIUM RESOURCES</span>
+        </div>
+      </div>
+
+      <div class="nav-label">Categories</div>
+      <nav class="nav" id="category-nav">
+        <a class="nav-link active" data-category="all">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          All Resources
+        </a>
+        <a class="nav-link" data-category="social">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>
+          </span>
+          Social Media
+        </a>
+        <a class="nav-link" data-category="domain">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </span>
+          Domain & DNS
+        </a>
+        <a class="nav-link" data-category="geospatial">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+          </span>
+          Geospatial
+        </a>
+        <a class="nav-link" data-category="documents">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </span>
+          Documents
+        </a>
+        <a class="nav-link" data-category="email">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          </span>
+          Email
+        </a>
+        <a class="nav-link" data-category="darkweb">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+          </span>
+          Dark Web
+        </a>
+        <a class="nav-link" data-category="crypto">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>
+          </span>
+          Crypto
+        </a>
+        <a class="nav-link" data-category="corporate">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M4 10h16"/><path d="M4 14h16"/><path d="M4 18h16"/></svg>
+          </span>
+          Corporate
+        </a>
+        <a class="nav-link" data-category="tools">
+          <span class="nav-icon">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </span>
+          Tools
+        </a>
+      </nav>
+    </aside>
+
+    <main>
+      <header class="header">
+        <div class="breadcrumb">Archive <span style="color:var(--text-muted);margin:0 8px;">/</span> <strong id="current-category">All Resources</strong></div>
+        <div class="header-actions">
+          <button class="header-btn" id="settings-toggle">Settings</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="hero">
+          <h1>OSINT Resource Archive</h1>
+          <p>A comprehensive collection of premium free open-source intelligence tools and resources for researchers, investigators, and cybersecurity professionals.</p>
+          <div class="search-container">
+            <div class="search-icon">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </div>
+            <input class="search-input" id="search-input" type="search" placeholder="Search resources...">
+          </div>
+        </section>
+
+        <div class="banner">
+          <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="bannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#0a0a0a"/>
+                <stop offset="50%" style="stop-color:#0f0f0f"/>
+                <stop offset="100%" style="stop-color:#0a0a0a"/>
+              </linearGradient>
+            </defs>
+            <rect width="1200" height="200" fill="url(#bannerGrad)"/>
+            <g stroke="#ffffff" stroke-width="0.5" opacity="0.05">
+              <line x1="0" y1="50" x2="1200" y2="50"/>
+              <line x1="0" y1="100" x2="1200" y2="100"/>
+              <line x1="0" y1="150" x2="1200" y2="150"/>
+              <line x1="200" y1="0" x2="200" y2="200"/>
+              <line x1="400" y1="0" x2="400" y2="200"/>
+              <line x1="600" y1="0" x2="600" y2="200"/>
+              <line x1="800" y1="0" x2="800" y2="200"/>
+              <line x1="1000" y1="0" x2="1000" y2="200"/>
+            </g>
+          </svg>
+          <div class="banner-content">
+            <div class="banner-title">Advanced Intelligence Gathering</div>
+            <div class="banner-subtitle">Cutting-edge OSINT tools for cybersecurity investigations and threat intelligence</div>
+          </div>
+        </div>
+
+        <div id="resources-container"></div>
+
+        <footer class="footer">
+          <p>OSINT Archive — Premium free resources for open-source intelligence research. Updated 2024</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="settings-panel" id="settings-panel">
+    <div class="settings-header">
+      <h2>Settings</h2>
+      <button class="settings-close" id="settings-close">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="settings-body">
+      <div class="setting-group">
+        <h3>Display</h3>
+        <div class="setting-item">
+          <div>
+            <div class="setting-label">Show descriptions</div>
+            <div class="setting-desc">Display resource descriptions</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="show-descriptions" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <div class="setting-label">Show badges</div>
+            <div class="setting-desc">Display free/popular badges</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="show-badges" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+      <div class="setting-group">
+        <h3>Filtering</h3>
+        <div class="setting-item">
+          <div>
+            <div class="setting-label">Free only</div>
+            <div class="setting-desc">Show only free resources</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="free-only">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div>
+            <div class="setting-label">Popular only</div>
+            <div class="setting-desc">Show only popular resources</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="popular-only">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const resources = [
+      // Social Media
+      { name: "Google Dorks", desc: "Advanced Google search techniques for OSINT", url: "https://www.google.com/advanced_search", category: "social", free: true, popular: true },
+      { name: "Sherlock", desc: "Find usernames across 300+ social networks", url: "https://github.com/sherlock-project/sherlock", category: "social", free: true, popular: true },
+      { name: "Namechk", desc: "Username search across hundreds of sites", url: "https://namechk.com/", category: "social", free: true, popular: true },
+      { name: "Social Searcher", desc: "Advanced social media search engine", url: "https://www.social-searcher.com/", category: "social", free: true },
+      { name: "WhatsMyName.app", desc: "Username enumeration for 500+ sites", url: "https://whatsmyname.app/", category: "social", free: true, popular: true },
+      { name: "Maigret", desc: "Collect information from user profiles", url: "https://github.com/soxoj/maigret", category: "social", free: true },
+      { name: "The Harvester", desc: "Email, subdomain and people harvesting", url: "https://github.com/laramies/theHarvester", category: "social", free: true, popular: true },
+      { name: "SpiderFoot HX", desc: "Automated OSINT collection", url: "https://www.spiderfoot.net/", category: "social", free: true },
+      { name: "CheckUserNames", desc: "Username search across social networks", url: "https://checkusernames.com/", category: "social", free: true },
+      { name: "KnowEm", desc: "Username and brand search across social media", url: "https://knowem.com/", category: "social", free: true },
+      { name: "Social-Analyzer", desc: "OSINT tool for analyzing social media accounts", url: "https://github.com/qeeqbox/social-analyzer", category: "social", free: true },
+      { name: "UserSearch.org", desc: "Search for users across multiple platforms", url: "https://usersearch.org/", category: "social", free: true },
+      { name: "Twuko", desc: "Twitter profile search and viewer", url: "https://twuko.com/", category: "social", free: true },
+      { name: "TweetDeck", desc: "Advanced Twitter dashboard and search", url: "https://tweetdeck.twitter.com/", category: "social", free: true },
+      { name: "Invidious", desc: "YouTube front-end with search capabilities", url: "https://invidious.snopyta.org/", category: "social", free: true },
+      { name: "Outils FCSN", desc: "Social media monitoring tools", url: "https://outils.fcsn.org/", category: "social", free: true },
+      { name: "Picuki", desc: "Instagram profile viewer and search", url: "https://picuki.com/", category: "social", free: true },
+      { name: "Imageraider", desc: "Reverse image search across platforms", url: "https://imageraider.com/", category: "social", free: true },
+      { name: "TinEye", desc: "Reverse image search engine", url: "https://tineye.com/", category: "social", free: true, popular: true },
+      { name: "Google Images", desc: "Reverse image search by Google", url: "https://images.google.com/", category: "social", free: true },
+      { name: "Yandex Images", desc: "Russian reverse image search", url: "https://yandex.com/images/", category: "social", free: true },
+      { name: "Bing Visual Search", desc: "Microsoft's visual search engine", url: "https://www.bing.com/visualsearch", category: "social", free: true },
+      { name: "FaceCheck.id", desc: "Face recognition search engine", url: "https://facecheck.id/", category: "social", free: true },
+      { name: "PimEyes", desc: "Advanced face recognition search", url: "https://pimeyes.com/", category: "social", free: true },
+      { name: "Facebook Advanced Search", desc: "Advanced Facebook search techniques", url: "https://www.facebook.com/public/", category: "social", free: true },
+      { name: "LinkedIn Search", desc: "Professional network search", url: "https://www.linkedin.com/", category: "social", free: true },
+      { name: "Reddit Search", desc: "Reddit forum and user search", url: "https://www.reddit.com/", category: "social", free: true },
+      { name: "Twitter Advanced Search", desc: "Advanced Twitter search queries", url: "https://twitter.com/search-advanced", category: "social", free: true },
+      { name: "GitHub Search", desc: "Code repository and developer search", url: "https://github.com/search", category: "social", free: true },
+      
+      // Domain & DNS
+      { name: "Crt.sh", desc: "Certificate transparency log search", url: "https://crt.sh/", category: "domain", free: true, popular: true },
+      { name: "DNSDumpster", desc: "DNS reconnaissance and research", url: "https://dnsdumpster.com/", category: "domain", free: true, popular: true },
+      { name: "VirusTotal", desc: "Domain and file analysis platform", url: "https://www.virustotal.com/", category: "domain", free: true, popular: true },
+      { name: "SecurityTrails", desc: "Domain and DNS intelligence", url: "https://securitytrails.com/", category: "domain", free: true },
+      { name: "WhoisXML API", desc: "Domain WHOIS lookup", url: "https://www.whoisxmlapi.com/", category: "domain", free: true },
+      { name: "Shodan", desc: "Internet-connected device search", url: "https://www.shodan.io/", category: "domain", free: true, popular: true },
+      { name: "Censys", desc: "Internet intelligence platform", url: "https://search.censys.io/", category: "domain", free: true, popular: true },
+      { name: "BinaryEdge", desc: "Internet scanning and search engine", url: "https://www.binaryedge.io/", category: "domain", free: true },
+      { name: "Subfinder", desc: "Subdomain discovery tool", url: "https://github.com/projectdiscovery/subfinder", category: "domain", free: true },
+      { name: "Amass", desc: "Attack surface discovery tool", url: "https://github.com/owasp-amass/amass", category: "domain", free: true, popular: true },
+      { name: "Whois.com", desc: "Domain WHOIS lookup service", url: "https://www.whois.com/", category: "domain", free: true },
+      { name: "DomainTools", desc: "Domain intelligence and research", url: "https://www.domaintools.com/", category: "domain", free: true },
+      { name: "MXToolbox", desc: "DNS and network diagnostic tools", url: "https://mxtoolbox.com/", category: "domain", free: true, popular: true },
+      { name: "DNSSTUFF", desc: "DNS lookup and network tools", url: "https://www.dnsstuff.com/", category: "domain", free: true },
+      { name: "Spyse", desc: "Internet assets search engine", url: "https://spyse.com/", category: "domain", free: true },
+      { name: "Zoomeye", desc: "Cyberspace search engine", url: "https://www.zoomeye.org/", category: "domain", free: true },
+      { name: "Fofa", desc: "Network space search engine", url: "https://fofa.so/", category: "domain", free: true },
+      { name: "Onyphe", desc: "Cyber threat intelligence search", url: "https://www.onyphe.io/", category: "domain", free: true },
+      { name: "Netlas.io", desc: "Internet-wide scanning and research", url: "https://netlas.io/", category: "domain", free: true },
+      { name: "PublicWWW", desc: "Source code search engine", url: "https://publicwww.com/", category: "domain", free: true },
+      { name: "Urlscan.io", desc: "URL and website scanner", url: "https://urlscan.io/", category: "domain", free: true, popular: true },
+      { name: "Wayback Machine", desc: "Historical website archives", url: "https://web.archive.org/", category: "domain", free: true, popular: true },
+      { name: "Archive.today", desc: "Web page archiving service", url: "https://archive.today/", category: "domain", free: true },
+      { name: "BuiltWith", desc: "Technology profiler for websites", url: "https://builtwith.com/", category: "domain", free: true },
+      { name: "Wappalyzer", desc: "Technology detection tool", url: "https://www.wappalyzer.com/", category: "domain", free: true },
+      { name: "SimilarWeb", desc: "Website traffic analytics", url: "https://www.similarweb.com/", category: "domain", free: true },
+      { name: "AlienVault OTX", desc: "Open threat intelligence platform", url: "https://otx.alienvault.com/", category: "domain", free: true },
+      { name: "Hybrid Analysis", desc: "File and domain analysis", url: "https://www.hybrid-analysis.com/", category: "domain", free: true },
+      { name: "ThreatCrowd", desc: "Threat intelligence aggregator", url: "https://www.threatcrowd.org/", category: "domain", free: true },
+      { name: "AbuseIPDB", desc: "IP address reputation database", url: "https://www.abuseipdb.com/", category: "domain", free: true },
+      { name: "IPVoid", desc: "IP address blacklist check", url: "https://www.ipvoid.com/", category: "domain", free: true },
+      { name: "DomainDossier", desc: "Domain investigation reports", url: "https://domaindossier.com/", category: "domain", free: true },
+      { name: "DNSrecon", desc: "DNS reconnaissance script", url: "https://github.com/darkoperator/dnsrecon", category: "domain", free: true },
+      { name: "DNSenum", desc: "DNS enumeration tool", url: "https://github.com/fwaeyteens/dnsenum", category: "domain", free: true },
+      
+      // Geospatial
+      { name: "Google Earth", desc: "Satellite imagery and 3D maps", url: "https://earth.google.com/", category: "geospatial", free: true, popular: true },
+      { name: "OpenStreetMap", desc: "Free open-source world maps", url: "https://www.openstreetmap.org/", category: "geospatial", free: true, popular: true },
+      { name: "Google Maps", desc: "Street view and satellite imagery", url: "https://maps.google.com/", category: "geospatial", free: true, popular: true },
+      { name: "Bing Maps", desc: "Aerial imagery and maps", url: "https://www.bing.com/maps", category: "geospatial", free: true },
+      { name: "Zoom Earth", desc: "Real-time satellite imagery", url: "https://zoom.earth/", category: "geospatial", free: true, popular: true },
+      { name: "Yandex Maps", desc: "Russian mapping service", url: "https://yandex.com/maps/", category: "geospatial", free: true },
+      { name: "Sentinel Hub", desc: "Satellite imagery analysis", url: "https://www.sentinel-hub.com/", category: "geospatial", free: true },
+      { name: "NASA Worldview", desc: "Real-time satellite imagery", url: "https://worldview.earthdata.nasa.gov/", category: "geospatial", free: true },
+      { name: "Mapillary", desc: "Street-level imagery from users", url: "https://www.mapillary.com/", category: "geospatial", free: true },
+      { name: "Apple Maps", desc: "Apple's mapping service", url: "https://maps.apple.com/", category: "geospatial", free: true },
+      { name: "Here WeGo", desc: "Mapping and navigation service", url: "https://wego.here.com/", category: "geospatial", free: true },
+      { name: "Maxar Technologies", desc: "High-resolution satellite imagery", url: "https://www.maxar.com/", category: "geospatial", free: true },
+      { name: "Planet Labs", desc: "Daily satellite imagery", url: "https://www.planet.com/", category: "geospatial", free: true },
+      { name: "Copernicus Open Access", desc: "ESA satellite data", url: "https://scihub.copernicus.eu/", category: "geospatial", free: true },
+      { name: "USGS Earth Explorer", desc: "USGS satellite imagery archive", url: "https://earthexplorer.usgs.gov/", category: "geospatial", free: true },
+      { name: "Google Street View", desc: "360-degree street imagery", url: "https://www.google.com/streetview/", category: "geospatial", free: true },
+      { name: "GeoNames", desc: "Geographical database", url: "https://www.geonames.org/", category: "geospatial", free: true },
+      { name: "SunCalc", desc: "Sun position and shadows tool", url: "https://suncalc.org/", category: "geospatial", free: true },
+      { name: "Shadow Calculator", desc: "Calculate shadow positions", url: "https://shadowcalculator.org/", category: "geospatial", free: true },
+      { name: "FlightRadar24", desc: "Real-time flight tracking", url: "https://www.flightradar24.com/", category: "geospatial", free: true, popular: true },
+      { name: "MarineTraffic", desc: "Ship tracking and maritime data", url: "https://www.marinetraffic.com/", category: "geospatial", free: true, popular: true },
+      { name: "FlightAware", desc: "Flight tracking and data", url: "https://www.flightaware.com/", category: "geospatial", free: true },
+      { name: "ADS-B Exchange", desc: "Unfiltered flight tracking", url: "https://www.adsbexchange.com/", category: "geospatial", free: true },
+      { name: "OpenAIP", desc: "Aeronautical information database", url: "https://www.openaip.net/", category: "geospatial", free: true },
+      { name: "GPS Coordinates", desc: "Find GPS coordinates", url: "https://www.gps-coordinates.net/", category: "geospatial", free: true },
+      { name: "GeoSetter", desc: "Geotagging data viewer", url: "https://www.geosetter.de/", category: "geospatial", free: true },
+      { name: "ExifTool", desc: "Read and write metadata", url: "https://exiftool.org/", category: "geospatial", free: true },
+      
+      // Documents
+      { name: "Google Scholar", desc: "Academic literature search", url: "https://scholar.google.com/", category: "documents", free: true, popular: true },
+      { name: "Internet Archive", desc: "Wayback Machine and digital library", url: "https://archive.org/", category: "documents", free: true, popular: true },
+      { name: "PDF Drive", desc: "PDF document search engine", url: "https://www.pdfdrive.com/", category: "documents", free: true },
+      { name: "DOAJ", desc: "Directory of Open Access Journals", url: "https://doaj.org/", category: "documents", free: true },
+      { name: "SEC EDGAR", desc: "US SEC company filings database", url: "https://www.sec.gov/edgar/", category: "documents", free: true, popular: true },
+      { name: "OpenAlex", desc: "Global research database", url: "https://openalex.org/", category: "documents", free: true },
+      { name: "CORE", desc: "Open access research papers", url: "https://core.ac.uk/", category: "documents", free: true },
+      { name: "ArXiv", desc: "Open access scientific papers", url: "https://arxiv.org/", category: "documents", free: true, popular: true },
+      { name: "ResearchGate", desc: "Scientific research network", url: "https://www.researchgate.net/", category: "documents", free: true },
+      { name: "Academia.edu", desc: "Academic paper sharing platform", url: "https://www.academia.edu/", category: "documents", free: true },
+      { name: "Library of Congress", desc: "US national library digital collections", url: "https://www.loc.gov/", category: "documents", free: true },
+      { name: "Europe PMC", desc: "Life sciences literature database", url: "https://europepmc.org/", category: "documents", free: true },
+      { name: "PubMed", desc: "Biomedical literature database", url: "https://pubmed.ncbi.nlm.nih.gov/", category: "documents", free: true },
+      { name: "Semantic Scholar", desc: "AI-powered research tool", url: "https://www.semanticscholar.org/", category: "documents", free: true },
+      { name: "ScienceDirect", desc: "Scientific journal articles", url: "https://www.sciencedirect.com/", category: "documents", free: true },
+      { name: "JSTOR", desc: "Academic journal archive", url: "https://www.jstor.org/", category: "documents", free: true },
+      { name: "Scribd", desc: "Document sharing platform", url: "https://www.scribd.com/", category: "documents", free: true },
+      { name: "Issuu", desc: "Digital publishing platform", url: "https://issuu.com/", category: "documents", free: true },
+      { name: "DocDroid", desc: "Document sharing service", url: "https://www.docdroid.net/", category: "documents", free: true },
+      { name: "Papers Past", desc: "New Zealand historical newspapers", url: "https://paperspast.natlib.govt.nz/", category: "documents", free: true },
+      { name: "Chronicling America", desc: "US historic newspapers", url: "https://chroniclingamerica.loc.gov/", category: "documents", free: true },
+      { name: "UK Web Archive", desc: "UK web archive collection", url: "https://www.webarchive.org.uk/", category: "documents", free: true },
+      { name: "National Archives UK", desc: "UK government records", url: "https://www.nationalarchives.gov.uk/", category: "documents", free: true },
+      { name: "FOCA", desc: "Document metadata analysis", url: "https://github.com/ElevenPaths/FOCA", category: "documents", free: true },
+      { name: "Metagoofil", desc: "Metadata extraction tool", url: "https://github.com/lclements/metagoofil", category: "documents", free: true },
+      { name: "LibGen", desc: "Library Genesis ebook search", url: "https://libgen.is/", category: "documents", free: true },
+      { name: "Z-Library", desc: "Digital library of ebooks", url: "https://z-lib.org/", category: "documents", free: true },
+      
+      // Email
+      { name: "Have I Been Pwned", desc: "Data breach checker", url: "https://haveibeenpwned.com/", category: "email", free: true, popular: true },
+      { name: "Hunter.io", desc: "Email finder (free tier)", url: "https://hunter.io/", category: "email", free: true },
+      { name: "EmailRep", desc: "Email reputation investigation", url: "https://emailrep.io/", category: "email", free: true, popular: true },
+      { name: "Mailchimp", desc: "Email validation service", url: "https://mailchimp.com/", category: "email", free: true },
+      { name: "DeHashed", desc: "Breach database search", url: "https://dehashed.com/", category: "email", free: true },
+      { name: "Snov.io", desc: "Email finder and verifier", url: "https://snov.io/", category: "email", free: true },
+      { name: "VoilaNorbert", desc: "Email finder tool", url: "https://www.voilanorbert.com/", category: "email", free: true },
+      { name: "EmailHippo", desc: "Email verification service", url: "https://emailhippo.com/", category: "email", free: true },
+      { name: "NeverBounce", desc: "Email validation (free tier)", url: "https://neverbounce.com/", category: "email", free: true },
+      { name: "ZeroBounce", desc: "Email verification platform", url: "https://www.zerobounce.net/", category: "email", free: true },
+      { name: "Kickbox", desc: "Email verification API", url: "https://kickbox.com/", category: "email", free: true },
+      { name: "BriteVerify", desc: "Real-time email verification", url: "https://www.briteverify.com/", category: "email", free: true },
+      { name: "Mailsniffer", desc: "Email OSINT tools", url: "https://mailsniffer.io/", category: "email", free: true },
+      { name: "Email Format", desc: "Email format guesser", url: "https://www.email-format.com/", category: "email", free: true },
+      { name: "RocketReach", desc: "Contact finder (free tier)", url: "https://rocketreach.co/", category: "email", free: true },
+      { name: "Lusha", desc: "B2B contact database", url: "https://www.lusha.com/", category: "email", free: true },
+      { name: "FindThatLead", desc: "Email prospecting tool", url: "https://findthatlead.com/", category: "email", free: true },
+      { name: "AeroLeads", desc: "Email and contact finder", url: "https://www.aeroleads.com/", category: "email", free: true },
+      { name: "GetEmail.io", desc: "Email finder from LinkedIn", url: "https://getemail.io/", category: "email", free: true },
+      { name: "Skrapp", desc: "Email scraper for LinkedIn", url: "https://skrapp.io/", category: "email", free: true },
+      { name: "Reoon Email Verifier", desc: "Bulk email verification", url: "https://reoon.com/", category: "email", free: true },
+      { name: "BreachDirectory", desc: "Breach database search", url: "https://breachdirectory.org/", category: "email", free: true },
+      { name: "IntelX", desc: "Search engine for data leaks", url: "https://intelx.io/", category: "email", free: true },
+      
+      // Dark Web
+      { name: "Ahmia", desc: "Tor hidden service search", url: "https://ahmia.fi/", category: "darkweb", free: true, popular: true },
+      { name: "OnionScan", desc: "Dark web scanning tool", url: "https://github.com/s-rah/onionscan", category: "darkweb", free: true },
+      { name: "DarkSearch", desc: "Dark web search engine", url: "https://darksearch.io/", category: "darkweb", free: true },
+      { name: "Tor Project", desc: "Anonymous communication network", url: "https://www.torproject.org/", category: "darkweb", free: true, popular: true },
+      { name: "Grams", desc: "Dark web search engine", url: "https://grams7enufiygj.onion/", category: "darkweb", free: true },
+      { name: "DuckDuckGo Onion", desc: "Tor version of DuckDuckGo", url: "https://duckduckgogg42xjoc72x3sjasowoexfbg27xiix4u2td7dtkv5qed2ad.onion/", category: "darkweb", free: true },
+      { name: "Hidden Wiki", desc: "Directory of .onion sites", url: "http://zqktlwi4fecvo6ri.onion/wiki/index.php/Main_Page", category: "darkweb", free: true },
+      { name: "Haystack", desc: "Dark web search engine", url: "https://haystakvxrn5fjbjjx6x6z6wv4xfy7k3kzfwj4r7o6xq4xjy7.onion/", category: "darkweb", free: true },
+      { name: "Candle", desc: "Dark web search engine", url: "http://gjobqjj7bwycfb6h.onion/", category: "darkweb", free: true },
+      { name: "Tor66", desc: "Dark web search engine", url: "http://tor66sewebvjitpd.onion/", category: "darkweb", free: true },
+      { name: "Phobos", desc: "Dark web search engine", url: "http://phobosxilpcwc2la.onion/", category: "darkweb", free: true },
+      { name: "Onion.cab", desc: "Tor directory service", url: "https://onion.cab/", category: "darkweb", free: true },
+      { name: "Onion.to", desc: "Tor to web gateway", url: "https://onion.to/", category: "darkweb", free: true },
+      { name: "Candle Search", desc: "Dark web search", url: "https://candle.cab/", category: "darkweb", free: true },
+      { name: "TorLinks", desc: "Tor link directory", url: "http://torlinkb6d2lju4.onion/", category: "darkweb", free: true },
+      { name: "The Hidden Wiki", desc: "Popular .onion directory", url: "http://thehiddenwiki.org/", category: "darkweb", free: true },
+      
+      // Crypto
+      { name: "Blockchain.com", desc: "Bitcoin blockchain explorer", url: "https://www.blockchain.com/explorer", category: "crypto", free: true, popular: true },
+      { name: "Etherscan", desc: "Ethereum blockchain explorer", url: "https://etherscan.io/", category: "crypto", free: true, popular: true },
+      { name: "WalletExplorer", desc: "Bitcoin wallet clustering", url: "https://www.walletexplorer.com/", category: "crypto", free: true },
+      { name: "Whale Alert", desc: "Large cryptocurrency transactions", url: "https://whale-alert.io/", category: "crypto", free: true, popular: true },
+      { name: "Chainalysis", desc: "Blockchain analysis (free tier)", url: "https://www.chainalysis.com/", category: "crypto", free: true },
+      { name: "CoinMarketCap", desc: "Cryptocurrency market data", url: "https://coinmarketcap.com/", category: "crypto", free: true, popular: true },
+      { name: "CoinGecko", desc: "Cryptocurrency market data", url: "https://www.coingecko.com/", category: "crypto", free: true },
+      { name: "BscScan", desc: "Binance Smart Chain explorer", url: "https://bscscan.com/", category: "crypto", free: true },
+      { name: "Polygonscan", desc: "Polygon blockchain explorer", url: "https://polygonscan.com/", category: "crypto", free: true },
+      { name: "Arbiscan", desc: "Arbitrum blockchain explorer", url: "https://arbiscan.io/", category: "crypto", free: true },
+      { name: "Blockchair", desc: "Multi-blockchain explorer", url: "https://blockchair.com/", category: "crypto", free: true },
+      { name: "Token Sniffer", desc: "Token safety checker", url: "https://tokensniffer.com/", category: "crypto", free: true },
+      { name: "DeFi Llama", desc: "DeFi analytics platform", url: "https://defillama.com/", category: "crypto", free: true },
+      { name: "Glassnode", desc: "On-chain market intelligence", url: "https://glassnode.com/", category: "crypto", free: true },
+      { name: "Coinmetrics", desc: "Crypto market analytics", url: "https://coinmetrics.io/", category: "crypto", free: true },
+      { name: "Nansen", desc: "Blockchain analytics platform", url: "https://www.nansen.ai/", category: "crypto", free: true },
+      { name: "Dune Analytics", desc: "Crypto data analytics", url: "https://dune.com/", category: "crypto", free: true },
+      { name: "Messari", desc: "Crypto research platform", url: "https://messari.io/", category: "crypto", free: true },
+      { name: "CoinTracker", desc: "Crypto tax portfolio tracker", url: "https://www.cointracker.io/", category: "crypto", free: true },
+      { name: "CryptoCompare", desc: "Crypto market data", url: "https://www.cryptocompare.com/", category: "crypto", free: true },
+      { name: "Amlbot", desc: "Crypto compliance checker", url: "https://amlbot.com/", category: "crypto", free: true },
+      { name: "OXT Explorer", desc: "Bitcoin blockchain analysis", url: "https://oxt.me/", category: "crypto", free: true },
+      { name: "Crystal Blockchain", desc: "Bitcoin analytics", url: "https://crystalblockchain.com/", category: "crypto", free: true },
+      { name: "Elliptic", desc: "Crypto intelligence platform", url: "https://elliptic.com/", category: "crypto", free: true },
+      
+      // Corporate
+      { name: "Crunchbase", desc: "Company information database", url: "https://www.crunchbase.com/", category: "corporate", free: true, popular: true },
+      { name: "OpenCorporates", desc: "Company registry data", url: "https://opencorporates.com/", category: "corporate", free: true, popular: true },
+      { name: "Companies House", desc: "UK company registry", url: "https://find-and-update.company-information.service.gov.uk/", category: "corporate", free: true },
+      { name: "Dun & Bradstreet", desc: "Business intelligence (free tier)", url: "https://www.dnb.com/", category: "corporate", free: true },
+      { name: "Owler", desc: "Company competitive intelligence", url: "https://www.owler.com/", category: "corporate", free: true },
+      { name: "Glassdoor", desc: "Company reviews and salaries", url: "https://www.glassdoor.com/", category: "corporate", free: true, popular: true },
+      { name: "PitchBook", desc: "Private market data", url: "https://pitchbook.com/", category: "corporate", free: true },
+      { name: "ZoomInfo", desc: "B2B contact database", url: "https://www.zoominfo.com/", category: "corporate", free: true },
+      { name: "Bloomberg", desc: "Financial market data", url: "https://www.bloomberg.com/", category: "corporate", free: true },
+      { name: "SEC Filings", desc: "US SEC company filings", url: "https://www.sec.gov/edgar/searchedgar/companysearch.html", category: "corporate", free: true },
+      { name: "EDGAR Search", desc: "SEC document search", url: "https://www.sec.gov/edgar/search/", category: "corporate", free: true },
+      { name: "RagCharts", desc: "Company financial charts", url: "https://ragcharts.com/", category: "corporate", free: true },
+      { name: "Y Combinator", desc: "Startup database", url: "https://www.ycombinator.com/companies", category: "corporate", free: true },
+      { name: "AngelList", desc: "Startup and job platform", url: "https://wellfound.com/", category: "corporate", free: true },
+      { name: "RocketReach", desc: "Business contact finder", url: "https://rocketreach.co/", category: "corporate", free: true },
+      { name: "LinkedIn", desc: "Professional network and company data", url: "https://www.linkedin.com/", category: "corporate", free: true },
+      { name: "CompanyURLs", desc: "Company website finder", url: "https://companyurls.com/", category: "corporate", free: true },
+      { name: "Corporate Registry", desc: "Global company registries", url: "https://www.corporateregistry.com/", category: "corporate", free: true },
+      { name: "Corporation Wiki", desc: "Company profiles and relationships", url: "https://www.corporationwiki.com/", category: "corporate", free: true },
+      { name: "Bureau van Dijk", desc: "Company information database", url: "https://www.bvdinfo.com/", category: "corporate", free: true },
+      { name: "Forbes", desc: "Business news and company info", url: "https://www.forbes.com/", category: "corporate", free: true },
+      { name: "Fortune", desc: "Fortune 500 company list", url: "https://fortune.com/", category: "corporate", free: true },
+      { name: "EDGAR Online", desc: "SEC filing data", url: "https://www.edgar-online.com/", category: "corporate", free: true },
+      { name: "Investopedia", desc: "Financial education and company info", url: "https://www.investopedia.com/", category: "corporate", free: true },
+      { name: "GlobeNewswire", desc: "Press release distribution", url: "https://www.globenewswire.com/", category: "corporate", free: true },
+      { name: "Business Wire", desc: "Corporate press releases", url: "https://www.businesswire.com/", category: "corporate", free: true },
+      { name: "PR Newswire", desc: "News and press releases", url: "https://www.prnewswire.com/", category: "corporate", free: true },
+      
+      // Tools
+      { name: "Maltego", desc: "OSINT graph tool (Community)", url: "https://www.maltego.com/", category: "tools", free: true, popular: true },
+      { name: "SpiderFoot", desc: "OSINT automation tool", url: "https://www.spiderfoot.net/", category: "tools", free: true, popular: true },
+      { name: "Recon-ng", desc: "Web reconnaissance framework", url: "https://github.com/lanmaster53/recon-ng", category: "tools", free: true, popular: true },
+      { name: "IntelTechniques", desc: "OSINT tools and guides", url: "https://inteltechniques.com/tools/", category: "tools", free: true, popular: true },
+      { name: "Bellingcat", desc: "Online investigation guides", url: "https://www.bellingcat.com/category/resources/how-to/", category: "tools", free: true, popular: true },
+      { name: "OSINT Framework", desc: "Comprehensive OSINT tools map", url: "https://osintframework.com/", category: "tools", free: true, popular: true },
+      { name: "FOCA", desc: "Document metadata analysis", url: "https://github.com/ElevenPaths/FOCA", category: "tools", free: true },
+      { name: "Metagoofil", desc: "Metadata extraction tool", url: "https://github.com/lclements/metagoofil", category: "tools", free: true },
+      { name: "PicDate", desc: "Photo EXIF data analyzer", url: "https://picdate.com/", category: "tools", free: true },
+      { name: "GeoSetter", desc: "Geotagging data viewer", url: "https://www.geosetter.de/", category: "tools", free: true },
+    ];
+
+    const categoryNames = {
+      all: "All Resources",
+      social: "Social Media",
+      domain: "Domain & DNS",
+      geospatial: "Geospatial",
+      documents: "Documents",
+      email: "Email",
+      darkweb: "Dark Web",
+      crypto: "Crypto",
+      corporate: "Corporate",
+      tools: "Tools"
+    };
+
+    const categoryIcons = {
+      social: '<svg viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>',
+      domain: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+      geospatial: '<svg viewBox="0 0 24 24"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>',
+      documents: '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+      email: '<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+      darkweb: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>',
+      crypto: '<svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/><path d="M6 12h.01M18 12h.01"/></svg>',
+      corporate: '<svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M4 10h16"/><path d="M4 14h16"/><path d="M4 18h16"/></svg>',
+      tools: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>'
+    };
+
+    let currentCategory = 'all';
+    let showDescriptions = true;
+    let showBadges = true;
+    let freeOnly = false;
+    let popularOnly = false;
+
+    function renderResources() {
+      const container = document.getElementById('resources-container');
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      
+      let filtered = resources.filter(r => {
+        const matchesCategory = currentCategory === 'all' || r.category === currentCategory;
+        const matchesSearch = r.name.toLowerCase().includes(searchTerm) || r.desc.toLowerCase().includes(searchTerm);
+        const matchesFree = !freeOnly || r.free;
+        const matchesPopular = !popularOnly || r.popular;
+        return matchesCategory && matchesSearch && matchesFree && matchesPopular;
+      });
+
+      const grouped = {};
+      if (currentCategory === 'all') {
+        filtered.forEach(r => {
+          if (!grouped[r.category]) grouped[r.category] = [];
+          grouped[r.category].push(r);
+        });
+      } else {
+        grouped[currentCategory] = filtered;
+      }
+
+      container.innerHTML = '';
+      
+      Object.keys(grouped).forEach(cat => {
+        if (grouped[cat].length === 0) return;
+        
+        const section = document.createElement('div');
+        section.className = 'category-section';
+        
+        const header = document.createElement('div');
+        header.className = 'category-header';
+        header.innerHTML = `
+          <div class="category-icon">${categoryIcons[cat] || ''}</div>
+          <div class="category-title">${categoryNames[cat]}</div>
+          <div class="category-count">${grouped[cat].length}</div>
+        `;
+        section.appendChild(header);
+        
+        const grid = document.createElement('div');
+        grid.className = 'resources-grid';
+        
+        grouped[cat].forEach(r => {
+          const card = document.createElement('a');
+          card.href = r.url;
+          card.target = '_blank';
+          card.rel = 'noopener noreferrer';
+          card.className = 'resource-card';
+          
+          let badges = '';
+          if (showBadges) {
+            badges = '<div class="resource-footer">';
+            if (r.free) badges += '<span class="badge free">FREE</span>';
+            if (r.popular) badges += '<span class="badge popular">POPULAR</span>';
+            badges += '</div>';
+          }
+          
+          card.innerHTML = `
+            <div class="resource-header">
+              <div class="resource-icon">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              </div>
+              <div class="resource-name">${r.name}</div>
+            </div>
+            ${showDescriptions ? `<div class="resource-desc">${r.desc}</div>` : ''}
+            ${badges}
+          `;
+          
+          grid.appendChild(card);
+        });
+        
+        section.appendChild(grid);
+        container.appendChild(section);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:60px;font-size:14px;">No resources found matching your criteria.</p>';
+      }
+    }
+
+    document.querySelectorAll('.nav-link[data-category]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        currentCategory = link.dataset.category;
+        document.getElementById('current-category').textContent = categoryNames[currentCategory];
+        renderResources();
+      });
+    });
+
+    document.getElementById('search-input').addEventListener('input', renderResources);
+
+    const settingsPanel = document.getElementById('settings-panel');
+    const overlay = document.getElementById('overlay');
+
+    document.getElementById('settings-toggle').addEventListener('click', () => {
+      settingsPanel.classList.add('open');
+      overlay.classList.add('open');
+    });
+
+    document.getElementById('settings-close').addEventListener('click', () => {
+      settingsPanel.classList.remove('open');
+      overlay.classList.remove('open');
+    });
+
+    overlay.addEventListener('click', () => {
+      settingsPanel.classList.remove('open');
+      overlay.classList.remove('open');
+    });
+
+    document.getElementById('show-descriptions').addEventListener('change', (e) => {
+      showDescriptions = e.target.checked;
+      renderResources();
+    });
+
+    document.getElementById('show-badges').addEventListener('change', (e) => {
+      showBadges = e.target.checked;
+      renderResources();
+    });
+
+    document.getElementById('free-only').addEventListener('change', (e) => {
+      freeOnly = e.target.checked;
+      renderResources();
+    });
+
+    document.getElementById('popular-only').addEventListener('change', (e) => {
+      popularOnly = e.target.checked;
+      renderResources();
+    });
+
+    renderResources();
+  </script>
+</body>
+</html>
