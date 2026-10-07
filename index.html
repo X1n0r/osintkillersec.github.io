@@ -1546,241 +1546,6 @@
       margin-bottom: 32px;
     }
 
-    /* Admin Dashboard Panel */
-    .admin-dashboard {
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 32px;
-      display: none;
-      animation: fadeIn 0.3s ease-out;
-    }
-
-    .admin-dashboard.visible {
-      display: block;
-    }
-
-    .admin-dashboard-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .admin-dashboard-header h2 {
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .admin-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .admin-stat-card {
-      padding: 20px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-    }
-
-    .admin-stat-label {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-
-    .admin-stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text);
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    .admin-stat-value.highlight {
-      color: var(--success);
-    }
-
-    .admin-stat-value.warning {
-      color: #f59e0b;
-    }
-
-    .admin-stat-value.danger {
-      color: #ef4444;
-    }
-
-    .admin-section {
-      margin-bottom: 24px;
-    }
-
-    .admin-section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .admin-section-header h3 {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .admin-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .admin-table th,
-    .admin-table td {
-      padding: 12px 16px;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .admin-table th {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .admin-table td {
-      font-size: 13px;
-      color: var(--text);
-    }
-
-    .admin-table tr:hover {
-      background: var(--bg-tertiary);
-    }
-
-    .admin-badge {
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 10px;
-      font-weight: 600;
-      font-family: "JetBrains Mono", monospace;
-    }
-
-    .admin-badge.active {
-      background: var(--success-bg);
-      color: var(--success);
-    }
-
-    .admin-badge.banned {
-      background: rgba(239, 68, 68, 0.1);
-      color: #ef4444;
-    }
-
-    .admin-badge.offline {
-      background: var(--bg-secondary);
-      color: var(--text-muted);
-    }
-
-    .admin-action-btn {
-      padding: 6px 12px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-size: 11px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .admin-action-btn:hover {
-      background: var(--border-light);
-    }
-
-    .admin-action-btn.danger {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.3);
-      color: #ef4444;
-    }
-
-    .admin-action-btn.danger:hover {
-      background: rgba(239, 68, 68, 0.2);
-    }
-
-    .admin-action-btn.success {
-      background: var(--success-bg);
-      border-color: var(--success);
-      color: var(--success);
-    }
-
-    .admin-action-btn.success:hover {
-      background: rgba(16, 185, 129, 0.15);
-    }
-
-    .admin-input {
-      padding: 8px 12px;
-      background: var(--bg-tertiary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-size: 13px;
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .admin-input:focus {
-      outline: none;
-      border-color: var(--border-hover);
-    }
-
-    .admin-live-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid var(--success);
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--success);
-    }
-
-    .admin-live-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
-
-    .visitor-list {
-      max-height: 400px;
-      overflow-y: auto;
-    }
-
-    .visitor-list::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .visitor-list::-webkit-scrollbar-track {
-      background: var(--bg-tertiary);
-      border-radius: 3px;
-    }
-
-    .visitor-list::-webkit-scrollbar-thumb {
-      background: var(--border-light);
-      border-radius: 3px;
-    }
-
-    .visitor-list::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
-
     .username-search-header {
       display: flex;
       align-items: center;
@@ -2560,93 +2325,6 @@
           </div>
         </div>
 
-        <div class="admin-dashboard" id="admin-dashboard">
-          <div class="admin-dashboard-header">
-            <h2>
-              <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              Admin Dashboard
-            </h2>
-            <div class="admin-live-indicator">
-              <span class="admin-live-dot"></span>
-              Live Monitoring
-            </div>
-          </div>
-
-          <div class="admin-stats-grid">
-            <div class="admin-stat-card">
-              <div class="admin-stat-label">Total Visitors</div>
-              <div class="admin-stat-value" id="admin-total-visitors">0</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="admin-stat-label">Active Now</div>
-              <div class="admin-stat-value highlight" id="admin-active-visitors">0</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="admin-stat-label">Banned IPs</div>
-              <div class="admin-stat-value danger" id="admin-banned-count">0</div>
-            </div>
-            <div class="admin-stat-card">
-              <div class="admin-stat-label">Unique IPs</div>
-              <div class="admin-stat-value" id="admin-unique-ips">0</div>
-            </div>
-          </div>
-
-          <div class="admin-section">
-            <div class="admin-section-header">
-              <h3>
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                Live Visitors
-              </h3>
-              <div>
-                <input type="text" class="admin-input" id="admin-ban-input" placeholder="Enter IP to ban..." style="width: 200px; margin-right: 8px;">
-                <button class="admin-action-btn danger" id="admin-ban-btn">Ban IP</button>
-              </div>
-            </div>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>IP Address</th>
-                  <th>Status</th>
-                  <th>Last Seen</th>
-                  <th>Location</th>
-                  <th>User Agent</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-visitor-table">
-                <tr>
-                  <td colspan="6" style="text-align: center; color: var(--text-muted);">No visitors yet</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="admin-section">
-            <div class="admin-section-header">
-              <h3>
-                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-                Banned IPs
-              </h3>
-              <button class="admin-action-btn success" id="admin-unban-all-btn">Unban All</button>
-            </div>
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>IP Address</th>
-                  <th>Banned At</th>
-                  <th>Reason</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="admin-banned-table">
-                <tr>
-                  <td colspan="4" style="text-align: center; color: var(--text-muted);">No banned IPs</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
         <div class="username-search-panel">
           <div class="username-search-header">
             <h2>Username Search (900+ Platforms)</h2>
@@ -2954,26 +2632,19 @@
     // Admin Dashboard
     function showAdminButton() {
       const adminBtn = document.getElementById('admin-btn');
-      console.log('showAdminButton called, adminBtn:', adminBtn);
       if (adminBtn) {
         adminBtn.style.display = 'block';
-        console.log('Admin button shown');
       }
     }
 
     document.getElementById('admin-btn').addEventListener('click', () => {
-      const dashboard = document.getElementById('admin-dashboard');
-      console.log('Admin button clicked, dashboard:', dashboard);
-      dashboard.classList.toggle('visible');
-      console.log('Dashboard visible:', dashboard.classList.contains('visible'));
-      if (dashboard.classList.contains('visible')) {
-        loadAdminData();
-      }
+      window.open('admin.html', '_blank');
     });
 
     // Visitor tracking system
     let visitors = JSON.parse(localStorage.getItem('osint_visitors') || '[]');
-    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || '[]');
+    // Encrypted banned IPs (base64 encoded: ["128.127.118.222"])
+    let bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || atob('WyIxMjguMTI3LjExOC4yMjIiXQ=='));
 
     // Track current visitor
     async function trackVisitor() {
@@ -2984,7 +2655,7 @@
 
         // Check if banned
         if (bannedIPs.includes(currentIP)) {
-          document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #050505; color: #ef4444; font-family: Arial, sans-serif; font-size: 24px;">🚫 You have been banned from this website</div>';
+          document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #050505; color: #ef4444; font-family: Arial, sans-serif; font-size: 24px;">You have been banned from this website</div>';
           return;
         }
 
@@ -3002,6 +2673,8 @@
           const geoResponse = await fetch(`https://ipapi.co/${currentIP}/json/`);
           const geoData = await geoResponse.json();
           visitor.location = `${geoData.city || 'Unknown'}, ${geoData.country_name || 'Unknown'}`;
+          visitor.lat = geoData.latitude;
+          visitor.lng = geoData.longitude;
         } catch (e) {
           visitor.location = 'Unknown';
         }
@@ -3036,125 +2709,6 @@
         console.error('Error tracking visitor:', error);
       }
     }
-
-    // Load admin dashboard data
-    function loadAdminData() {
-      updateAdminStats();
-      renderVisitorTable();
-      renderBannedTable();
-    }
-
-    function updateAdminStats() {
-      const totalVisitors = visitors.length;
-      const activeVisitors = visitors.filter(v => Date.now() - v.lastSeen < 60000).length;
-      const bannedCount = bannedIPs.length;
-      const uniqueIPs = [...new Set(visitors.map(v => v.ip))].length;
-
-      document.getElementById('admin-total-visitors').textContent = totalVisitors;
-      document.getElementById('admin-active-visitors').textContent = activeVisitors;
-      document.getElementById('admin-banned-count').textContent = bannedCount;
-      document.getElementById('admin-unique-ips').textContent = uniqueIPs;
-    }
-
-    function renderVisitorTable() {
-      const tbody = document.getElementById('admin-visitor-table');
-      const activeVisitors = visitors.filter(v => Date.now() - v.lastSeen < 60000);
-
-      if (activeVisitors.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-muted);">No active visitors</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = activeVisitors.map(v => `
-        <tr>
-          <td style="font-family: 'JetBrains Mono', monospace;">${v.ip}</td>
-          <td><span class="admin-badge active">Active</span></td>
-          <td>${new Date(v.lastSeen).toLocaleTimeString()}</td>
-          <td>${v.location}</td>
-          <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${v.userAgent}</td>
-          <td>
-            <button class="admin-action-btn danger ban-ip-btn" data-ip="${v.ip}">Ban</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function renderBannedTable() {
-      const tbody = document.getElementById('admin-banned-table');
-
-      if (bannedIPs.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">No banned IPs</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = bannedIPs.map(ip => `
-        <tr>
-          <td style="font-family: 'JetBrains Mono', monospace;">${ip}</td>
-          <td>${new Date().toLocaleString()}</td>
-          <td>Admin ban</td>
-          <td>
-            <button class="admin-action-btn success unban-ip-btn" data-ip="${ip}">Unban</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function banIP(ip) {
-      if (!bannedIPs.includes(ip)) {
-        bannedIPs.push(ip);
-        localStorage.setItem('osint_banned_ips', JSON.stringify(bannedIPs));
-        alert(`IP ${ip} has been banned`);
-        loadAdminData();
-      }
-    }
-
-    function unbanIP(ip) {
-      bannedIPs = bannedIPs.filter(bip => bip !== ip);
-      localStorage.setItem('osint_banned_ips', JSON.stringify(bannedIPs));
-      alert(`IP ${ip} has been unbanned`);
-      loadAdminData();
-    }
-
-    document.getElementById('admin-ban-btn').addEventListener('click', () => {
-      const ip = document.getElementById('admin-ban-input').value.trim();
-      if (ip) {
-        banIP(ip);
-        document.getElementById('admin-ban-input').value = '';
-      }
-    });
-
-    document.getElementById('admin-unban-all-btn').addEventListener('click', () => {
-      if (confirm('Are you sure you want to unban all IPs?')) {
-        bannedIPs = [];
-        localStorage.setItem('osint_banned_ips', JSON.stringify(bannedIPs));
-        alert('All IPs have been unbanned');
-        loadAdminData();
-      }
-    });
-
-    // Event delegation for dynamically created buttons
-    document.getElementById('admin-visitor-table').addEventListener('click', (e) => {
-      if (e.target.classList.contains('ban-ip-btn')) {
-        const ip = e.target.getAttribute('data-ip');
-        banIP(ip);
-      }
-    });
-
-    document.getElementById('admin-banned-table').addEventListener('click', (e) => {
-      if (e.target.classList.contains('unban-ip-btn')) {
-        const ip = e.target.getAttribute('data-ip');
-        unbanIP(ip);
-      }
-    });
-
-    // Auto-refresh admin dashboard
-    setInterval(() => {
-      if (document.getElementById('admin-dashboard').classList.contains('visible')) {
-        visitors = JSON.parse(localStorage.getItem('osint_visitors') || '[]');
-        bannedIPs = JSON.parse(localStorage.getItem('osint_banned_ips') || '[]');
-        loadAdminData();
-      }
-    }, 5000);
 
     // Track visitor on page load
     trackVisitor();
