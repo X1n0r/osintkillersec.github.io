@@ -1200,6 +1200,149 @@
     .fingerprint-btn.secondary:hover {
       background: var(--border-light);
     }
+
+    /* Geolocation Panel */
+    .geolocation-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .geolocation-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .geolocation-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .geolocation-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .geolocation-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .geolocation-input:focus {
+      outline: none;
+      border-color: var(--border-hover);
+      background: var(--bg-secondary);
+    }
+
+    .geolocation-btn {
+      padding: 12px 24px;
+      background: var(--text);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .geolocation-btn:hover {
+      opacity: 0.9;
+    }
+
+    .geolocation-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .geolocation-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 1024px) {
+      .geolocation-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .geolocation-map {
+      height: 400px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .geolocation-map iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .geolocation-info {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .geo-info-card {
+      padding: 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .geo-info-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .geo-info-value {
+      font-size: 14px;
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .geo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .my-ip-btn {
+      padding: 8px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .my-ip-btn:hover {
+      background: var(--border-light);
+    }
     
     /* Footer */
     .footer {
@@ -1442,7 +1585,7 @@
 
         <div class="fingerprint-panel">
           <div class="fingerprint-header">
-            <h2>Browser Fingerprint</h2>
+            <h2>Advanced Browser Fingerprint</h2>
           </div>
           <div class="fingerprint-grid" id="fingerprint-grid">
             <div class="fingerprint-card">
@@ -1462,24 +1605,56 @@
               <div class="fingerprint-card-value" id="fp-resolution">Loading...</div>
             </div>
             <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Available Resolution</div>
+              <div class="fingerprint-card-value" id="fp-availresolution">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
               <div class="fingerprint-card-label">Color Depth</div>
               <div class="fingerprint-card-value" id="fp-colordepth">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Pixel Ratio</div>
+              <div class="fingerprint-card-value" id="fp-pixelratio">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Screen Orientation</div>
+              <div class="fingerprint-card-value" id="fp-orientation">Loading...</div>
             </div>
             <div class="fingerprint-card">
               <div class="fingerprint-card-label">Timezone</div>
               <div class="fingerprint-card-value" id="fp-timezone">Loading...</div>
             </div>
             <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Timezone Offset</div>
+              <div class="fingerprint-card-value" id="fp-timezoneoffset">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
               <div class="fingerprint-card-label">Device Memory</div>
               <div class="fingerprint-card-value" id="fp-memory">Loading...</div>
             </div>
             <div class="fingerprint-card">
-              <div class="fingerprint-card-label">Hardware Concurrency</div>
+              <div class="fingerprint-card-label">CPU Cores</div>
               <div class="fingerprint-card-value" id="fp-cores">Loading...</div>
             </div>
             <div class="fingerprint-card">
               <div class="fingerprint-card-label">WebGL Vendor</div>
-              <div class="fingerprint-card-value" id="fp-webgl">Loading...</div>
+              <div class="fingerprint-card-value" id="fp-webglvendor">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">WebGL Renderer</div>
+              <div class="fingerprint-card-value" id="fp-webglrenderer">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">WebGL Version</div>
+              <div class="fingerprint-card-value" id="fp-webglversion">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">WebGL Max Texture</div>
+              <div class="fingerprint-card-value" id="fp-webglmaxtexture">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">WebGL Extensions</div>
+              <div class="fingerprint-card-value" id="fp-webglextensions">Loading...</div>
             </div>
             <div class="fingerprint-card">
               <div class="fingerprint-card-label">Canvas Fingerprint</div>
@@ -1490,16 +1665,166 @@
               <div class="fingerprint-card-value" id="fp-audio">Loading...</div>
             </div>
             <div class="fingerprint-card">
-              <div class="fingerprint-card-label">Fonts Detection</div>
+              <div class="fingerprint-card-label">Fonts Detected</div>
               <div class="fingerprint-card-value" id="fp-fonts">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Media Devices</div>
+              <div class="fingerprint-card-value" id="fp-mediadevices">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Battery Level</div>
+              <div class="fingerprint-card-value" id="fp-batterylevel">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Battery Charging</div>
+              <div class="fingerprint-card-value" id="fp-batterycharging">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Touch Support</div>
+              <div class="fingerprint-card-value" id="fp-touch">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Max Touch Points</div>
+              <div class="fingerprint-card-value" id="fp-touchpoints">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Cookies Enabled</div>
+              <div class="fingerprint-card-value" id="fp-cookies">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Do Not Track</div>
+              <div class="fingerprint-card-value" id="fp-donottrack">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">LocalStorage</div>
+              <div class="fingerprint-card-value" id="fp-localstorage">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">SessionStorage</div>
+              <div class="fingerprint-card-value" id="fp-sessionstorage">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">IndexedDB</div>
+              <div class="fingerprint-card-value" id="fp-indexeddb">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Storage Quota</div>
+              <div class="fingerprint-card-value" id="fp-storagequota">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Storage Usage</div>
+              <div class="fingerprint-card-value" id="fp-storageusage">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Connection Type</div>
+              <div class="fingerprint-card-value" id="fp-connection">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">RTT</div>
+              <div class="fingerprint-card-value" id="fp-rtt">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Downlink</div>
+              <div class="fingerprint-card-value" id="fp-downlink">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Save Data</div>
+              <div class="fingerprint-card-value" id="fp-savedata">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Plugins Count</div>
+              <div class="fingerprint-card-value" id="fp-pluginscount">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">History Length</div>
+              <div class="fingerprint-card-value" id="fp-history">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Dark Mode</div>
+              <div class="fingerprint-card-value" id="fp-darkmode">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Reduced Motion</div>
+              <div class="fingerprint-card-value" id="fp-reducedmotion">Loading...</div>
             </div>
           </div>
           <div class="fingerprint-hash" id="fingerprint-hash">
             Unique Fingerprint Hash: Calculating...
           </div>
+          <div class="fingerprint-hash" id="fingerprint-stats">
+            Data Points: Calculating...
+          </div>
           <div class="fingerprint-actions">
             <button class="fingerprint-btn" id="refresh-fingerprint">Refresh Fingerprint</button>
             <button class="fingerprint-btn secondary" id="copy-fingerprint">Copy Hash</button>
+            <button class="fingerprint-btn secondary" id="export-fingerprint">Export JSON</button>
+          </div>
+        </div>
+
+        <div class="geolocation-panel">
+          <div class="geolocation-header">
+            <h2>IP Geolocation</h2>
+            <button class="my-ip-btn" id="my-ip-btn">Use My IP</button>
+          </div>
+          <div class="geolocation-form">
+            <input type="text" class="geolocation-input" id="geo-input" placeholder="Enter IP address or leave empty for your IP...">
+            <button class="geolocation-btn" id="geo-btn">Locate IP</button>
+          </div>
+          <div class="geolocation-content">
+            <div class="geolocation-map" id="geo-map">
+              <div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted);">
+                Enter IP and click Locate
+              </div>
+            </div>
+            <div class="geolocation-info" id="geo-info">
+              <div class="geo-info-card">
+                <div class="geo-info-label">IP Address</div>
+                <div class="geo-info-value" id="geo-ip">-</div>
+              </div>
+              <div class="geo-grid">
+                <div class="geo-info-card">
+                  <div class="geo-info-label">City</div>
+                  <div class="geo-info-value" id="geo-city">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Region</div>
+                  <div class="geo-info-value" id="geo-region">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Country</div>
+                  <div class="geo-info-value" id="geo-country">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Continent</div>
+                  <div class="geo-info-value" id="geo-continent">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Coordinates</div>
+                  <div class="geo-info-value" id="geo-coords">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Timezone</div>
+                  <div class="geo-info-value" id="geo-timezone">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">ISP</div>
+                  <div class="geo-info-value" id="geo-isp">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">ASN</div>
+                  <div class="geo-info-value" id="geo-asn">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Postal Code</div>
+                  <div class="geo-info-value" id="geo-postal">-</div>
+                </div>
+                <div class="geo-info-card">
+                  <div class="geo-info-label">Organization</div>
+                  <div class="geo-info-value" id="geo-org">-</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2018,7 +2343,7 @@
     }
 
     // Advanced Browser Fingerprinting System
-    function generateFingerprint() {
+    async function generateFingerprint() {
       const fingerprint = {};
 
       // Basic browser info
@@ -2029,8 +2354,10 @@
 
       // Screen info
       fingerprint.screenResolution = `${screen.width}x${screen.height}`;
+      fingerprint.screenAvailableResolution = `${screen.availWidth}x${screen.availHeight}`;
       fingerprint.colorDepth = screen.colorDepth;
       fingerprint.pixelRatio = window.devicePixelRatio;
+      fingerprint.screenOrientation = screen.orientation ? screen.orientation.type : 'N/A';
 
       // Timezone
       fingerprint.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -2040,7 +2367,7 @@
       fingerprint.deviceMemory = navigator.deviceMemory || 'N/A';
       fingerprint.hardwareConcurrency = navigator.hardwareConcurrency || 'N/A';
 
-      // WebGL Info
+      // WebGL Advanced Info
       const canvas = document.createElement('canvas');
       const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
       if (gl) {
@@ -2049,9 +2376,15 @@
           fingerprint.webglVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
           fingerprint.webglRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
         }
+        fingerprint.webglVersion = gl.getParameter(gl.VERSION);
+        fingerprint.webglShadingLanguage = gl.getParameter(gl.SHADING_LANGUAGE_VERSION);
+        fingerprint.webglMaxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+        fingerprint.webglMaxViewportDims = gl.getParameter(gl.MAX_VIEWPORT_DIMS);
+        fingerprint.webglAliasedLineWidthRange = gl.getParameter(gl.ALIASED_LINE_WIDTH_RANGE);
+        fingerprint.webglAliasedPointSizeRange = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE);
       }
 
-      // Canvas Fingerprint
+      // Canvas Fingerprint (Advanced)
       const canvas2 = document.createElement('canvas');
       const ctx = canvas2.getContext('2d');
       ctx.textBaseline = 'top';
@@ -2060,9 +2393,16 @@
       ctx.fillRect(125, 1, 62, 20);
       ctx.fillStyle = '#069';
       ctx.fillText('Browser Fingerprint', 2, 15);
+      ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+      ctx.fillText('Advanced Detection', 4, 45);
+      ctx.strokeStyle = 'rgb(0,0,0)';
+      ctx.strokeRect(40, 40, 50, 50);
+      ctx.beginPath();
+      ctx.arc(50, 50, 20, 0, Math.PI * 2);
+      ctx.stroke();
       fingerprint.canvas = canvas2.toDataURL().slice(0, 50) + '...';
 
-      // Audio Fingerprint
+      // Audio Fingerprint (Advanced)
       try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
@@ -2089,19 +2429,30 @@
           }
         };
 
-        setTimeout(() => {
-          oscillator.stop();
-          audioContext.close();
-        }, 100);
+        await new Promise(resolve => setTimeout(resolve, 100));
 
-        fingerprint.audio = 'Generated (hashed)';
+        oscillator.stop();
+        audioContext.close();
+
+        // Generate audio hash
+        let audioHash = 0;
+        for (let i = 0; i < Math.min(fingerprintData.length, 100); i++) {
+          audioHash = ((audioHash << 5) - audioHash) + Math.floor(fingerprintData[i] * 1000);
+          audioHash = audioHash & audioHash;
+        }
+        fingerprint.audio = 'A' + Math.abs(audioHash).toString(16).toUpperCase();
       } catch (e) {
         fingerprint.audio = 'Not available';
       }
 
-      // Fonts Detection
+      // Fonts Detection (Extended)
       const baseFonts = ['monospace', 'sans-serif', 'serif'];
-      const testFonts = ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Georgia', 'Impact', 'Times New Roman', 'Trebuchet MS', 'Verdana', 'Helvetica', 'Geneva', 'Lucida Console', 'Palatino', 'Tahoma'];
+      const testFonts = [
+        'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Georgia', 'Impact',
+        'Times New Roman', 'Trebuchet MS', 'Verdana', 'Helvetica', 'Geneva',
+        'Lucida Console', 'Palatino', 'Tahoma', 'Bookman Old Style', 'Century Gothic',
+        'Garamond', 'Franklin Gothic Medium', 'Arial Narrow', 'Brush Script MT'
+      ];
       const fontCanvas = document.createElement('canvas');
       const fontCtx = fontCanvas.getContext('2d');
       const testString = 'mmmmmmmmmmlli';
@@ -2127,27 +2478,96 @@
         }
       });
 
-      fingerprint.fonts = detectedFonts.length > 0 ? detectedFonts.slice(0, 5).join(', ') + '...' : 'None detected';
+      fingerprint.fonts = detectedFonts.length > 0 ? detectedFonts.slice(0, 10).join(', ') + ` (+${detectedFonts.length} total)` : 'None detected';
+
+      // Media Devices
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioInputs = devices.filter(d => d.kind === 'audioinput').length;
+        const audioOutputs = devices.filter(d => d.kind === 'audiooutput').length;
+        const videoInputs = devices.filter(d => d.kind === 'videoinput').length;
+        fingerprint.mediaDevices = `Audio In: ${audioInputs}, Audio Out: ${audioOutputs}, Video: ${videoInputs}`;
+      } catch (e) {
+        fingerprint.mediaDevices = 'Not available';
+      }
+
+      // Battery API
+      try {
+        const battery = await navigator.getBattery();
+        fingerprint.batteryLevel = battery.level * 100 + '%';
+        fingerprint.batteryCharging = battery.charging ? 'Yes' : 'No';
+      } catch (e) {
+        fingerprint.batteryLevel = 'N/A';
+        fingerprint.batteryCharging = 'N/A';
+      }
+
+      // Touch support
+      fingerprint.touchSupport = 'ontouchstart' in window ? 'Yes' : 'No';
+      fingerprint.maxTouchPoints = navigator.maxTouchPoints || 0;
 
       // Storage
       fingerprint.cookiesEnabled = navigator.cookieEnabled;
       fingerprint.doNotTrack = navigator.doNotTrack || 'Not set';
       fingerprint.localstorage = typeof localStorage !== 'undefined';
       fingerprint.sessionstorage = typeof sessionStorage !== 'undefined';
+      fingerprint.indexedDB = typeof indexedDB !== 'undefined';
+
+      // Storage Quota
+      try {
+        if (navigator.storage && navigator.storage.estimate) {
+          const estimate = await navigator.storage.estimate();
+          fingerprint.storageQuota = Math.round(estimate.quota / 1024 / 1024) + ' MB';
+          fingerprint.storageUsage = Math.round(estimate.usage / 1024 / 1024) + ' MB';
+        }
+      } catch (e) {
+        fingerprint.storageQuota = 'N/A';
+        fingerprint.storageUsage = 'N/A';
+      }
 
       // Network
       fingerprint.connection = navigator.connection ? navigator.connection.effectiveType : 'N/A';
-      fingerprint.rtt = navigator.connection ? navigator.connection.rtt : 'N/A';
+      fingerprint.rtt = navigator.connection ? navigator.connection.rtt + 'ms' : 'N/A';
+      fingerprint.downlink = navigator.connection ? navigator.connection.downlink + ' Mbps' : 'N/A';
+      fingerprint.saveData = navigator.connection ? navigator.connection.saveData : 'N/A';
 
-      // Generate Hash
+      // Plugins
+      fingerprint.plugins = [];
+      for (let i = 0; i < navigator.plugins.length; i++) {
+        fingerprint.plugins.push(navigator.plugins[i].name);
+      }
+      fingerprint.pluginsCount = navigator.plugins.length;
+
+      // History
+      fingerprint.historyLength = history.length;
+
+      // Performance
+      fingerprint.performanceTiming = performance.now();
+
+      // Media queries
+      const matchDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const matchReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      fingerprint.prefersDarkMode = matchDark ? 'Yes' : 'No';
+      fingerprint.prefersReducedMotion = matchReduced ? 'Yes' : 'No';
+
+      // WebGL Parameters
+      if (gl) {
+        fingerprint.webglExtensions = gl.getSupportedExtensions().length;
+        fingerprint.webglAntialiasing = gl.getContextAttributes().antialias ? 'Yes' : 'No';
+      }
+
+      // Generate Advanced Hash (SHA-256 simulation)
       const fingerprintString = JSON.stringify(fingerprint);
       let hash = 0;
       for (let i = 0; i < fingerprintString.length; i++) {
         const char = fingerprintString.charCodeAt(i);
         hash = ((hash << 5) - hash) + char;
         hash = hash & hash;
+        hash = Math.abs(hash);
       }
-      fingerprint.hash = Math.abs(hash).toString(16).toUpperCase();
+      // Convert to base36 for longer hash
+      fingerprint.hash = hash.toString(36).toUpperCase();
+      fingerprint.hashLength = fingerprint.hash.length;
+      fingerprint.dataPoints = Object.keys(fingerprint).length;
 
       return fingerprint;
     }
@@ -2157,35 +2577,176 @@
       document.getElementById('fp-platform').textContent = fp.platform;
       document.getElementById('fp-language').textContent = fp.language;
       document.getElementById('fp-resolution').textContent = fp.screenResolution;
+      document.getElementById('fp-availresolution').textContent = fp.screenAvailableResolution;
       document.getElementById('fp-colordepth').textContent = fp.colorDepth + ' bits';
+      document.getElementById('fp-pixelratio').textContent = fp.pixelRatio;
+      document.getElementById('fp-orientation').textContent = fp.screenOrientation;
       document.getElementById('fp-timezone').textContent = fp.timezone;
+      document.getElementById('fp-timezoneoffset').textContent = fp.timezoneOffset + ' minutes';
       document.getElementById('fp-memory').textContent = fp.deviceMemory !== 'N/A' ? fp.deviceMemory + ' GB' : 'N/A';
       document.getElementById('fp-cores').textContent = fp.hardwareConcurrency !== 'N/A' ? fp.hardwareConcurrency + ' cores' : 'N/A';
-      document.getElementById('fp-webgl').textContent = fp.webglRenderer || 'N/A';
+      document.getElementById('fp-webglvendor').textContent = fp.webglVendor || 'N/A';
+      document.getElementById('fp-webglrenderer').textContent = fp.webglRenderer || 'N/A';
+      document.getElementById('fp-webglversion').textContent = fp.webglVersion || 'N/A';
+      document.getElementById('fp-webglmaxtexture').textContent = fp.webglMaxTextureSize || 'N/A';
+      document.getElementById('fp-webglextensions').textContent = fp.webglExtensions || 'N/A';
       document.getElementById('fp-canvas').textContent = fp.canvas;
       document.getElementById('fp-audio').textContent = fp.audio;
       document.getElementById('fp-fonts').textContent = fp.fonts;
+      document.getElementById('fp-mediadevices').textContent = fp.mediaDevices;
+      document.getElementById('fp-batterylevel').textContent = fp.batteryLevel;
+      document.getElementById('fp-batterycharging').textContent = fp.batteryCharging;
+      document.getElementById('fp-touch').textContent = fp.touchSupport;
+      document.getElementById('fp-touchpoints').textContent = fp.maxTouchPoints;
+      document.getElementById('fp-cookies').textContent = fp.cookiesEnabled ? 'Yes' : 'No';
+      document.getElementById('fp-donottrack').textContent = fp.doNotTrack;
+      document.getElementById('fp-localstorage').textContent = fp.localstorage ? 'Yes' : 'No';
+      document.getElementById('fp-sessionstorage').textContent = fp.sessionstorage ? 'Yes' : 'No';
+      document.getElementById('fp-indexeddb').textContent = fp.indexedDB ? 'Yes' : 'No';
+      document.getElementById('fp-storagequota').textContent = fp.storageQuota;
+      document.getElementById('fp-storageusage').textContent = fp.storageUsage;
+      document.getElementById('fp-connection').textContent = fp.connection;
+      document.getElementById('fp-rtt').textContent = fp.rtt;
+      document.getElementById('fp-downlink').textContent = fp.downlink;
+      document.getElementById('fp-savedata').textContent = fp.saveData;
+      document.getElementById('fp-pluginscount').textContent = fp.pluginsCount;
+      document.getElementById('fp-history').textContent = fp.historyLength;
+      document.getElementById('fp-darkmode').textContent = fp.prefersDarkMode;
+      document.getElementById('fp-reducedmotion').textContent = fp.prefersReducedMotion;
       document.getElementById('fingerprint-hash').textContent = 'Unique Fingerprint Hash: ' + fp.hash;
+      document.getElementById('fingerprint-stats').textContent = 'Data Points: ' + fp.dataPoints + ' | Hash Length: ' + fp.hashLength;
     }
 
     // Initialize fingerprint on load
-    document.addEventListener('DOMContentLoaded', () => {
-      const fp = generateFingerprint();
+    document.addEventListener('DOMContentLoaded', async () => {
+      const fp = await generateFingerprint();
       updateFingerprintDisplay(fp);
     });
 
     // Refresh fingerprint
-    document.getElementById('refresh-fingerprint').addEventListener('click', () => {
-      const fp = generateFingerprint();
+    document.getElementById('refresh-fingerprint').addEventListener('click', async () => {
+      const fp = await generateFingerprint();
       updateFingerprintDisplay(fp);
     });
 
     // Copy fingerprint hash
-    document.getElementById('copy-fingerprint').addEventListener('click', () => {
-      const hash = document.getElementById('fingerprint-hash').textContent.replace('Unique Fingerprint Hash: ', '');
-      navigator.clipboard.writeText(hash).then(() => {
+    document.getElementById('copy-fingerprint').addEventListener('click', async () => {
+      const fp = await generateFingerprint();
+      navigator.clipboard.writeText(fp.hash).then(() => {
         alert('Fingerprint hash copied to clipboard!');
       });
+    });
+
+    // Export fingerprint JSON
+    document.getElementById('export-fingerprint').addEventListener('click', async () => {
+      const fp = await generateFingerprint();
+      const jsonStr = JSON.stringify(fp, null, 2);
+      const blob = new Blob([jsonStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'fingerprint_' + fp.hash + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      alert('Fingerprint exported as JSON!');
+    });
+
+    // IP Geolocation System
+    async function getMyIP() {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+      } catch (error) {
+        console.error('Error getting IP:', error);
+        return null;
+      }
+    }
+
+    async function geolocateIP(ip) {
+      try {
+        const response = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error geolocating IP:', error);
+        return null;
+      }
+    }
+
+    function updateGeolocationDisplay(data) {
+      document.getElementById('geo-ip').textContent = data.ip || '-';
+      document.getElementById('geo-city').textContent = data.city || '-';
+      document.getElementById('geo-region').textContent = data.region || '-';
+      document.getElementById('geo-country').textContent = data.country_name || '-';
+      document.getElementById('geo-continent').textContent = data.continent_code || '-';
+      document.getElementById('geo-coords').textContent = data.latitude && data.longitude ? `${data.latitude}, ${data.longitude}` : '-';
+      document.getElementById('geo-timezone').textContent = data.timezone || '-';
+      document.getElementById('geo-isp').textContent = data.org || '-';
+      document.getElementById('geo-asn').textContent = data.asn || '-';
+      document.getElementById('geo-postal').textContent = data.postal || '-';
+      document.getElementById('geo-org').textContent = data.org || '-';
+
+      // Update map
+      if (data.latitude && data.longitude) {
+        const mapDiv = document.getElementById('geo-map');
+        mapDiv.innerHTML = `
+          <iframe
+            width="100%"
+            height="100%"
+            frameborder="0"
+            scrolling="no"
+            marginheight="0"
+            marginwidth="0"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=${data.longitude - 0.1},${data.latitude - 0.1},${data.longitude + 0.1},${data.latitude + 0.1}&layer=mapnik&marker=${data.latitude},${data.longitude}"
+          ></iframe>
+        `;
+      }
+    }
+
+    // Use My IP button
+    document.getElementById('my-ip-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('my-ip-btn');
+      btn.disabled = true;
+      btn.textContent = 'Getting IP...';
+
+      const myIP = await getMyIP();
+      if (myIP) {
+        document.getElementById('geo-input').value = myIP;
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Use My IP';
+    });
+
+    // Locate IP button
+    document.getElementById('geo-btn').addEventListener('click', async () => {
+      const input = document.getElementById('geo-input').value.trim();
+      const btn = document.getElementById('geo-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> Locating...';
+
+      let ip = input;
+      if (!ip) {
+        ip = await getMyIP();
+        if (ip) {
+          document.getElementById('geo-input').value = ip;
+        }
+      }
+
+      if (ip) {
+        const geoData = await geolocateIP(ip);
+        if (geoData) {
+          updateGeolocationDisplay(geoData);
+        } else {
+          alert('Failed to geolocate IP. Please try again.');
+        }
+      } else {
+        alert('Could not determine IP address.');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Locate IP';
     });
 
     const resources = [
