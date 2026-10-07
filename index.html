@@ -2892,7 +2892,8 @@
     // Simple hardcoded credentials (for demo only - not secure!)
     const USERS = {
       admin: ROOT_HASH,
-      killer: KILLER_HASH
+      killer: KILLER_HASH,
+      root: ROOT_HASH
     };
 
     function checkAuth() {
@@ -2917,9 +2918,14 @@
 
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const username = document.getElementById('username').value;
+      const username = document.getElementById('username').value.trim();
       const password = document.getElementById('password').value;
       const passwordHash = md5(password);
+
+      console.log('Username:', username);
+      console.log('Password hash:', passwordHash);
+      console.log('Expected hash for killer:', KILLER_HASH);
+      console.log('Expected hash for admin:', ROOT_HASH);
 
       if (USERS[username] && USERS[username] === passwordHash) {
         localStorage.setItem('osint_auth', 'true');
