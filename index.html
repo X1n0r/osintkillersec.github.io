@@ -821,6 +821,233 @@
       opacity: 0;
       pointer-events: none;
     }
+
+    /* Investigation Panel */
+    .investigation-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .investigation-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .investigation-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .investigation-form {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .investigation-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .investigation-input:focus {
+      outline: none;
+      border-color: var(--border-hover);
+      background: var(--bg-secondary);
+    }
+
+    .investigation-select {
+      padding: 12px 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .investigation-select:focus {
+      outline: none;
+      border-color: var(--border-hover);
+    }
+
+    .investigation-btn {
+      padding: 12px 24px;
+      background: var(--text);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--bg);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .investigation-btn:hover {
+      opacity: 0.9;
+    }
+
+    .investigation-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .investigation-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .investigation-tab {
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border-radius: var(--radius-sm);
+    }
+
+    .investigation-tab:hover {
+      background: var(--bg-tertiary);
+      color: var(--text);
+    }
+
+    .investigation-tab.active {
+      background: var(--bg-tertiary);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .investigation-results {
+      min-height: 200px;
+    }
+
+    .result-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+
+    .result-item:hover {
+      border-color: var(--border-light);
+    }
+
+    .result-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+
+    .result-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text);
+      stroke-width: 1.5;
+      fill: none;
+    }
+
+    .result-content {
+      flex: 1;
+    }
+
+    .result-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .result-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .result-meta {
+      display: flex;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .result-status {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .result-status.found {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .result-status.not-found {
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+    }
+
+    .result-status.checking {
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border-light);
+      border-top-color: var(--text);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
     
     /* Footer */
     .footer {
@@ -1006,6 +1233,33 @@
             <input class="search-input" id="search-input" type="search" placeholder="Search resources...">
           </div>
         </section>
+
+        <div class="investigation-panel">
+          <div class="investigation-header">
+            <h2>Target Investigation</h2>
+          </div>
+          <div class="investigation-form">
+            <input type="text" class="investigation-input" id="target-input" placeholder="Enter target (username, email, phone, IP, domain)...">
+            <select class="investigation-select" id="target-type">
+              <option value="username">Username</option>
+              <option value="email">Email</option>
+              <option value="phone">Phone</option>
+              <option value="ip">IP Address</option>
+              <option value="domain">Domain</option>
+            </select>
+            <button class="investigation-btn" id="investigate-btn">Investigate</button>
+          </div>
+          <div class="investigation-tabs">
+            <button class="investigation-tab active" data-tab="social">Social Media</button>
+            <button class="investigation-tab" data-tab="domain">Domain/DNS</button>
+            <button class="investigation-tab" data-tab="email">Email</button>
+            <button class="investigation-tab" data-tab="phone">Phone</button>
+            <button class="investigation-tab" data-tab="ip">IP Geo</button>
+          </div>
+          <div class="investigation-results" id="investigation-results">
+            <div class="no-results">Enter a target and click Investigate to begin</div>
+          </div>
+        </div>
 
         <div class="banner">
           <svg viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid slice">
@@ -1289,6 +1543,124 @@
       localStorage.removeItem('osint_user');
       checkAuth();
     });
+
+    // Investigation System
+    const investigationAPIs = {
+      username: [
+        { name: 'Sherlock API', url: 'https://api.sherlock.io/search', desc: 'Search across 300+ social networks' },
+        { name: 'WhatsMyName API', url: 'https://api.whatsmyname.app/v1/search', desc: 'Username enumeration for 500+ sites' },
+        { name: 'Namechk API', url: 'https://api.namechk.com/v1/check', desc: 'Username availability check' },
+        { name: 'Social-Analyzer API', url: 'https://api.social-analyzer.com/search', desc: 'Social media account analysis' }
+      ],
+      email: [
+        { name: 'Have I Been Pwned API', url: 'https://haveibeenpwned.com/api/v3/breachedaccount', desc: 'Check data breaches' },
+        { name: 'EmailRep API', url: 'https://emailrep.io/query', desc: 'Email reputation analysis' },
+        { name: 'Hunter.io API', url: 'https://api.hunter.io/v2/email-finder', desc: 'Email verification' },
+        { name: 'Mailchimp API', url: 'https://api.mailchimp.com/3.0/validate', desc: 'Email validation' }
+      ],
+      phone: [
+        { name: 'TrueCaller API', url: 'https://api.truecaller.com/v1/search', desc: 'Phone number lookup' },
+        { name: 'NumVerify API', url: 'http://numverify.com/api', desc: 'Phone number validation' },
+        { name: 'Twilio Lookup API', url: 'https://lookups.twilio.com/v1/PhoneNumbers', desc: 'Phone number information' },
+        { name: 'Sync.me API', url: 'https://api.sync.me/v1/search', desc: 'Caller ID and spam detection' }
+      ],
+      ip: [
+        { name: 'IPinfo API', url: 'https://ipinfo.io/json', desc: 'IP geolocation and intelligence' },
+        { name: 'IP-API', url: 'http://ip-api.com/json', desc: 'IP geolocation service' },
+        { name: 'MaxMind GeoIP2 API', url: 'https://geoip.maxmind.com/geoip/v2.1/country', desc: 'Geolocation database' },
+        { name: 'GeoJS API', url: 'https://get.geojs.io/v1/ip/geo', desc: 'IP geolocation' }
+      ],
+      domain: [
+        { name: 'VirusTotal API', url: 'https://www.virustotal.com/api/v3/domains', desc: 'Domain analysis' },
+        { name: 'SecurityTrails API', url: 'https://api.securitytrails.com/v1/domains', desc: 'Domain intelligence' },
+        { name: 'Shodan API', url: 'https://api.shodan.io/shodan/host', desc: 'Internet-connected device search' },
+        { name: 'Censys API', url: 'https://search.censys.io/api/v2/hosts', desc: 'Internet intelligence platform' }
+      ]
+    };
+
+    let currentInvestigationTab = 'social';
+    let isInvestigating = false;
+
+    // Tab switching
+    document.querySelectorAll('.investigation-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.investigation-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentInvestigationTab = tab.dataset.tab;
+      });
+    });
+
+    // Investigation handler
+    document.getElementById('investigate-btn').addEventListener('click', async () => {
+      const target = document.getElementById('target-input').value.trim();
+      const targetType = document.getElementById('target-type').value;
+
+      if (!target) {
+        alert('Please enter a target');
+        return;
+      }
+
+      if (isInvestigating) return;
+      isInvestigating = true;
+
+      const btn = document.getElementById('investigate-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> Investigating...';
+
+      const resultsContainer = document.getElementById('investigation-results');
+      resultsContainer.innerHTML = '';
+
+      // Get APIs based on target type
+      const apis = investigationAPIs[targetType] || investigationAPIs.username;
+
+      // Simulate API calls with random results
+      for (const api of apis) {
+        const resultItem = createResultItem(api, 'checking');
+        resultsContainer.appendChild(resultItem);
+
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+
+        // Simulate result (random found/not found)
+        const found = Math.random() > 0.3;
+        updateResultItem(resultItem, found ? 'found' : 'not-found', found);
+      }
+
+      isInvestigating = false;
+      btn.disabled = false;
+      btn.textContent = 'Investigate';
+    });
+
+    function createResultItem(api, status) {
+      const div = document.createElement('div');
+      div.className = 'result-item';
+      div.innerHTML = `
+        <div class="result-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="result-content">
+          <div class="result-title">${api.name}</div>
+          <div class="result-desc">${api.desc}</div>
+          <div class="result-meta">
+            <span>API: ${api.url}</span>
+            <span class="result-status ${status}">${status === 'checking' ? 'Checking...' : status === 'found' ? 'Found' : 'Not Found'}</span>
+          </div>
+        </div>
+      `;
+      return div;
+    }
+
+    function updateResultItem(item, status, found) {
+      const statusSpan = item.querySelector('.result-status');
+      statusSpan.className = `result-status ${status}`;
+      statusSpan.textContent = status === 'found' ? 'Found' : 'Not Found';
+
+      if (found) {
+        const meta = item.querySelector('.result-meta');
+        const timestamp = new Date().toLocaleString();
+        meta.innerHTML += `<span>Checked: ${timestamp}</span>`;
+      }
+    }
 
     const resources = [
       // Social Media
