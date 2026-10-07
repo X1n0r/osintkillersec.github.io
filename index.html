@@ -847,6 +847,7 @@
       display: flex;
       gap: 12px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
 
     .investigation-input {
@@ -956,6 +957,11 @@
       border-color: var(--border-light);
     }
 
+    .result-item.found {
+      border-color: var(--success);
+      background: var(--success-bg);
+    }
+
     .result-icon {
       width: 36px;
       height: 36px;
@@ -997,6 +1003,59 @@
       gap: 12px;
       font-size: 11px;
       color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .result-data {
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text);
+      display: none;
+    }
+
+    .result-data.visible {
+      display: block;
+    }
+
+    .result-data-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-data-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-data-label {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .result-data-value {
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+    }
+
+    .expand-btn {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 11px;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+
+    .expand-btn:hover {
+      background: var(--border-light);
     }
 
     .result-status {
@@ -1047,6 +1106,99 @@
 
     @keyframes spin {
       to { transform: rotate(360deg); }
+    }
+
+    /* Fingerprint Panel */
+    .fingerprint-panel {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .fingerprint-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .fingerprint-header h2 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .fingerprint-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .fingerprint-card {
+      padding: 16px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .fingerprint-card-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .fingerprint-card-value {
+      font-size: 13px;
+      color: var(--text);
+      font-family: "JetBrains Mono", monospace;
+      word-break: break-all;
+    }
+
+    .fingerprint-hash {
+      font-size: 11px;
+      color: var(--accent);
+      font-family: "JetBrains Mono", monospace;
+      margin-top: 12px;
+      padding: 8px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    .fingerprint-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .fingerprint-btn {
+      padding: 10px 20px;
+      background: var(--text);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .fingerprint-btn:hover {
+      opacity: 0.9;
+    }
+
+    .fingerprint-btn.secondary {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .fingerprint-btn.secondary:hover {
+      background: var(--border-light);
     }
     
     /* Footer */
@@ -1285,6 +1437,69 @@
           <div class="banner-content">
             <div class="banner-title">Advanced Intelligence Gathering</div>
             <div class="banner-subtitle">Cutting-edge OSINT tools for cybersecurity investigations and threat intelligence</div>
+          </div>
+        </div>
+
+        <div class="fingerprint-panel">
+          <div class="fingerprint-header">
+            <h2>Browser Fingerprint</h2>
+          </div>
+          <div class="fingerprint-grid" id="fingerprint-grid">
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">User Agent</div>
+              <div class="fingerprint-card-value" id="fp-useragent">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Platform</div>
+              <div class="fingerprint-card-value" id="fp-platform">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Language</div>
+              <div class="fingerprint-card-value" id="fp-language">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Screen Resolution</div>
+              <div class="fingerprint-card-value" id="fp-resolution">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Color Depth</div>
+              <div class="fingerprint-card-value" id="fp-colordepth">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Timezone</div>
+              <div class="fingerprint-card-value" id="fp-timezone">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Device Memory</div>
+              <div class="fingerprint-card-value" id="fp-memory">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Hardware Concurrency</div>
+              <div class="fingerprint-card-value" id="fp-cores">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">WebGL Vendor</div>
+              <div class="fingerprint-card-value" id="fp-webgl">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Canvas Fingerprint</div>
+              <div class="fingerprint-card-value" id="fp-canvas">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Audio Fingerprint</div>
+              <div class="fingerprint-card-value" id="fp-audio">Loading...</div>
+            </div>
+            <div class="fingerprint-card">
+              <div class="fingerprint-card-label">Fonts Detection</div>
+              <div class="fingerprint-card-value" id="fp-fonts">Loading...</div>
+            </div>
+          </div>
+          <div class="fingerprint-hash" id="fingerprint-hash">
+            Unique Fingerprint Hash: Calculating...
+          </div>
+          <div class="fingerprint-actions">
+            <button class="fingerprint-btn" id="refresh-fingerprint">Refresh Fingerprint</button>
+            <button class="fingerprint-btn secondary" id="copy-fingerprint">Copy Hash</button>
           </div>
         </div>
 
@@ -1547,34 +1762,24 @@
     // Investigation System
     const investigationAPIs = {
       username: [
-        { name: 'Sherlock API', url: 'https://api.sherlock.io/search', desc: 'Search across 300+ social networks' },
-        { name: 'WhatsMyName API', url: 'https://api.whatsmyname.app/v1/search', desc: 'Username enumeration for 500+ sites' },
-        { name: 'Namechk API', url: 'https://api.namechk.com/v1/check', desc: 'Username availability check' },
-        { name: 'Social-Analyzer API', url: 'https://api.social-analyzer.com/search', desc: 'Social media account analysis' }
+        { name: 'GitHub User', url: 'https://api.github.com/users/', desc: 'GitHub profile information', type: 'github' },
+        { name: 'Reddit User', url: 'https://www.reddit.com/user/', desc: 'Reddit profile', type: 'reddit' },
+        { name: 'Twitter User', url: 'https://nitter.net/', desc: 'Twitter profile (via Nitter)', type: 'nitter' }
       ],
       email: [
-        { name: 'Have I Been Pwned API', url: 'https://haveibeenpwned.com/api/v3/breachedaccount', desc: 'Check data breaches' },
-        { name: 'EmailRep API', url: 'https://emailrep.io/query', desc: 'Email reputation analysis' },
-        { name: 'Hunter.io API', url: 'https://api.hunter.io/v2/email-finder', desc: 'Email verification' },
-        { name: 'Mailchimp API', url: 'https://api.mailchimp.com/3.0/validate', desc: 'Email validation' }
+        { name: 'EmailRep', url: 'https://emailrep.io/query', desc: 'Email reputation analysis', type: 'emailrep' },
+        { name: 'Have I Been Pwned', url: 'https://haveibeenpwned.com/api/v3/breachedaccount/', desc: 'Data breach check', type: 'hibp' }
       ],
       phone: [
-        { name: 'TrueCaller API', url: 'https://api.truecaller.com/v1/search', desc: 'Phone number lookup' },
-        { name: 'NumVerify API', url: 'http://numverify.com/api', desc: 'Phone number validation' },
-        { name: 'Twilio Lookup API', url: 'https://lookups.twilio.com/v1/PhoneNumbers', desc: 'Phone number information' },
-        { name: 'Sync.me API', url: 'https://api.sync.me/v1/search', desc: 'Caller ID and spam detection' }
+        { name: 'NumVerify', url: 'http://numverify.com/api', desc: 'Phone validation', type: 'numverify' }
       ],
       ip: [
-        { name: 'IPinfo API', url: 'https://ipinfo.io/json', desc: 'IP geolocation and intelligence' },
-        { name: 'IP-API', url: 'http://ip-api.com/json', desc: 'IP geolocation service' },
-        { name: 'MaxMind GeoIP2 API', url: 'https://geoip.maxmind.com/geoip/v2.1/country', desc: 'Geolocation database' },
-        { name: 'GeoJS API', url: 'https://get.geojs.io/v1/ip/geo', desc: 'IP geolocation' }
+        { name: 'IPinfo', url: 'https://ipinfo.io/', desc: 'IP geolocation', type: 'ipinfo' },
+        { name: 'IP-API', url: 'http://ip-api.com/json/', desc: 'IP geolocation service', type: 'ipapi' }
       ],
       domain: [
-        { name: 'VirusTotal API', url: 'https://www.virustotal.com/api/v3/domains', desc: 'Domain analysis' },
-        { name: 'SecurityTrails API', url: 'https://api.securitytrails.com/v1/domains', desc: 'Domain intelligence' },
-        { name: 'Shodan API', url: 'https://api.shodan.io/shodan/host', desc: 'Internet-connected device search' },
-        { name: 'Censys API', url: 'https://search.censys.io/api/v2/hosts', desc: 'Internet intelligence platform' }
+        { name: 'Wayback Machine', url: 'https://web.archive.org/cdx/search/cdx', desc: 'Historical records', type: 'wayback' },
+        { name: 'DNS Dumpster', url: 'https://dnsdumpster.com/', desc: 'DNS reconnaissance', type: 'dnsdumpster' }
       ]
     };
 
@@ -1589,6 +1794,134 @@
         currentInvestigationTab = tab.dataset.tab;
       });
     });
+
+    // Real API calls
+    async function callAPI(api, target) {
+      try {
+        let data = null;
+        let url = api.url + target;
+
+        switch(api.type) {
+          case 'github':
+            const githubRes = await fetch(url);
+            if (githubRes.ok) {
+              data = await githubRes.json();
+              return { found: true, data: {
+                'Username': data.login,
+                'Name': data.name || 'N/A',
+                'Bio': data.bio || 'N/A',
+                'Location': data.location || 'N/A',
+                'Public Repos': data.public_repos,
+                'Followers': data.followers,
+                'Following': data.following,
+                'Created': new Date(data.created_at).toLocaleDateString(),
+                'Profile': data.html_url
+              }};
+            }
+            break;
+
+          case 'reddit':
+            try {
+              const redditRes = await fetch(url + target + '/about.json');
+              if (redditRes.ok) {
+                data = await redditRes.json();
+                return { found: true, data: {
+                  'Username': data.data.name,
+                  'Karma': data.data.link_karma + data.data.comment_karma,
+                  'Created': new Date(data.data.created_utc * 1000).toLocaleDateString(),
+                  'Account Age': Math.floor((Date.now() - data.data.created_utc * 1000) / (1000 * 60 * 60 * 24)) + ' days',
+                  'Profile': 'https://www.reddit.com/user/' + target
+                }};
+              }
+            } catch(e) {}
+            break;
+
+          case 'nitter':
+            return { found: true, data: {
+              'Profile': url + target,
+              'Note': 'Check profile via Nitter (Twitter alternative)'
+            }};
+
+          case 'emailrep':
+            try {
+              const emailrepRes = await fetch('https://emailrep.io/query/' + target);
+              if (emailrepRes.ok) {
+                data = await emailrepRes.json();
+                return { found: true, data: {
+                  'Email': data.email,
+                  'Reputation': data.reputation,
+                  'Suspicious': data.suspicious ? 'Yes' : 'No',
+                  'References': data.references,
+                  'Details': data.details ? data.details.length + ' sources' : '0'
+                }};
+              }
+            } catch(e) {}
+            break;
+
+          case 'ipinfo':
+            try {
+              const ipinfoRes = await fetch('https://ipinfo.io/' + target + '/json');
+              if (ipinfoRes.ok) {
+                data = await ipinfoRes.json();
+                return { found: true, data: {
+                  'IP': data.ip,
+                  'City': data.city || 'N/A',
+                  'Region': data.region || 'N/A',
+                  'Country': data.country || 'N/A',
+                  'Location': data.loc || 'N/A',
+                  'ISP': data.org || 'N/A',
+                  'Timezone': data.timezone || 'N/A'
+                }};
+              }
+            } catch(e) {}
+            break;
+
+          case 'ipapi':
+            try {
+              const ipapiRes = await fetch('http://ip-api.com/json/' + target);
+              if (ipapiRes.ok) {
+                data = await ipapiRes.json();
+                return { found: true, data: {
+                  'IP': data.query,
+                  'City': data.city,
+                  'Region': data.regionName,
+                  'Country': data.country,
+                  'ISP': data.isp,
+                  'Timezone': data.timezone,
+                  'Status': data.status
+                }};
+              }
+            } catch(e) {}
+            break;
+
+          case 'wayback':
+            try {
+              const waybackRes = await fetch('https://web.archive.org/cdx/search/cdx?url=' + target + '&output=json&limit=1');
+              if (waybackRes.ok) {
+                data = await waybackRes.json();
+                if (data.length > 1) {
+                  return { found: true, data: {
+                    'Domain': target,
+                    'First Archived': data[1][1],
+                    'Latest Archived': data[data.length-1][1],
+                    'Snapshots': data.length - 1,
+                    'Wayback URL': 'https://web.archive.org/web/*/' + target
+                  }};
+                }
+              }
+            } catch(e) {}
+            break;
+
+          default:
+            return { found: false, data: null };
+        }
+
+        return { found: false, data: null };
+      } catch (error) {
+        console.error('API Error:', error);
+        return { found: false, data: null, error: error.message };
+      }
+    }
 
     // Investigation handler
     document.getElementById('investigate-btn').addEventListener('click', async () => {
@@ -1613,17 +1946,15 @@
       // Get APIs based on target type
       const apis = investigationAPIs[targetType] || investigationAPIs.username;
 
-      // Simulate API calls with random results
+      // Make real API calls
       for (const api of apis) {
         const resultItem = createResultItem(api, 'checking');
         resultsContainer.appendChild(resultItem);
 
-        // Simulate API delay
-        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
+        // Call the real API
+        const result = await callAPI(api, target);
 
-        // Simulate result (random found/not found)
-        const found = Math.random() > 0.3;
-        updateResultItem(resultItem, found ? 'found' : 'not-found', found);
+        updateResultItem(resultItem, result.found ? 'found' : 'not-found', result.found, result.data, result.error);
       }
 
       isInvestigating = false;
@@ -1645,22 +1976,217 @@
             <span>API: ${api.url}</span>
             <span class="result-status ${status}">${status === 'checking' ? 'Checking...' : status === 'found' ? 'Found' : 'Not Found'}</span>
           </div>
+          <div class="result-data"></div>
         </div>
       `;
       return div;
     }
 
-    function updateResultItem(item, status, found) {
+    function updateResultItem(item, status, found, data, error) {
       const statusSpan = item.querySelector('.result-status');
       statusSpan.className = `result-status ${status}`;
       statusSpan.textContent = status === 'found' ? 'Found' : 'Not Found';
 
-      if (found) {
+      if (found && data) {
+        item.classList.add('found');
+        const dataDiv = item.querySelector('.result-data');
+        let dataHTML = '';
+        for (const [key, value] of Object.entries(data)) {
+          dataHTML += `
+            <div class="result-data-row">
+              <span class="result-data-label">${key}:</span>
+              <span class="result-data-value">${value}</span>
+            </div>
+          `;
+        }
+        dataDiv.innerHTML = dataHTML;
+        dataDiv.classList.add('visible');
+
+        const content = item.querySelector('.result-content');
+        const expandBtn = document.createElement('button');
+        expandBtn.className = 'expand-btn';
+        expandBtn.textContent = 'Hide Details';
+        expandBtn.onclick = () => {
+          dataDiv.classList.toggle('visible');
+          expandBtn.textContent = dataDiv.classList.contains('visible') ? 'Hide Details' : 'Show Details';
+        };
+        content.appendChild(expandBtn);
+      } else if (error) {
         const meta = item.querySelector('.result-meta');
-        const timestamp = new Date().toLocaleString();
-        meta.innerHTML += `<span>Checked: ${timestamp}</span>`;
+        meta.innerHTML += `<span style="color: #ef4444;">Error: ${error}</span>`;
       }
     }
+
+    // Advanced Browser Fingerprinting System
+    function generateFingerprint() {
+      const fingerprint = {};
+
+      // Basic browser info
+      fingerprint.userAgent = navigator.userAgent;
+      fingerprint.platform = navigator.platform;
+      fingerprint.language = navigator.language;
+      fingerprint.languages = navigator.languages;
+
+      // Screen info
+      fingerprint.screenResolution = `${screen.width}x${screen.height}`;
+      fingerprint.colorDepth = screen.colorDepth;
+      fingerprint.pixelRatio = window.devicePixelRatio;
+
+      // Timezone
+      fingerprint.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      fingerprint.timezoneOffset = new Date().getTimezoneOffset();
+
+      // Hardware
+      fingerprint.deviceMemory = navigator.deviceMemory || 'N/A';
+      fingerprint.hardwareConcurrency = navigator.hardwareConcurrency || 'N/A';
+
+      // WebGL Info
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (gl) {
+        const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+        if (debugInfo) {
+          fingerprint.webglVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+          fingerprint.webglRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        }
+      }
+
+      // Canvas Fingerprint
+      const canvas2 = document.createElement('canvas');
+      const ctx = canvas2.getContext('2d');
+      ctx.textBaseline = 'top';
+      ctx.font = '14px Arial';
+      ctx.fillStyle = '#f60';
+      ctx.fillRect(125, 1, 62, 20);
+      ctx.fillStyle = '#069';
+      ctx.fillText('Browser Fingerprint', 2, 15);
+      fingerprint.canvas = canvas2.toDataURL().slice(0, 50) + '...';
+
+      // Audio Fingerprint
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const analyser = audioContext.createAnalyser();
+        const gain = audioContext.createGain();
+        const scriptProcessor = audioContext.createScriptProcessor(4096, 1, 1);
+
+        gain.gain.value = 0;
+        oscillator.type = 'triangle';
+        oscillator.frequency.value = 10000;
+
+        oscillator.connect(analyser);
+        analyser.connect(scriptProcessor);
+        scriptProcessor.connect(gain);
+        gain.connect(audioContext.destination);
+
+        oscillator.start(0);
+
+        const fingerprintData = [];
+        scriptProcessor.onaudioprocess = (event) => {
+          const data = event.inputBuffer.getChannelData(0);
+          for (let i = 0; i < data.length; i++) {
+            fingerprintData.push(data[i]);
+          }
+        };
+
+        setTimeout(() => {
+          oscillator.stop();
+          audioContext.close();
+        }, 100);
+
+        fingerprint.audio = 'Generated (hashed)';
+      } catch (e) {
+        fingerprint.audio = 'Not available';
+      }
+
+      // Fonts Detection
+      const baseFonts = ['monospace', 'sans-serif', 'serif'];
+      const testFonts = ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Georgia', 'Impact', 'Times New Roman', 'Trebuchet MS', 'Verdana', 'Helvetica', 'Geneva', 'Lucida Console', 'Palatino', 'Tahoma'];
+      const fontCanvas = document.createElement('canvas');
+      const fontCtx = fontCanvas.getContext('2d');
+      const testString = 'mmmmmmmmmmlli';
+      const testSize = '72px';
+
+      const fontWidths = {};
+      baseFonts.forEach(base => {
+        fontCtx.font = testSize + ' ' + base;
+        fontWidths[base] = fontCtx.measureText(testString).width;
+      });
+
+      const detectedFonts = [];
+      testFonts.forEach(font => {
+        let detected = false;
+        baseFonts.forEach(base => {
+          fontCtx.font = testSize + ' ' + font + ',' + base;
+          if (fontCtx.measureText(testString).width !== fontWidths[base]) {
+            detected = true;
+          }
+        });
+        if (detected) {
+          detectedFonts.push(font);
+        }
+      });
+
+      fingerprint.fonts = detectedFonts.length > 0 ? detectedFonts.slice(0, 5).join(', ') + '...' : 'None detected';
+
+      // Storage
+      fingerprint.cookiesEnabled = navigator.cookieEnabled;
+      fingerprint.doNotTrack = navigator.doNotTrack || 'Not set';
+      fingerprint.localstorage = typeof localStorage !== 'undefined';
+      fingerprint.sessionstorage = typeof sessionStorage !== 'undefined';
+
+      // Network
+      fingerprint.connection = navigator.connection ? navigator.connection.effectiveType : 'N/A';
+      fingerprint.rtt = navigator.connection ? navigator.connection.rtt : 'N/A';
+
+      // Generate Hash
+      const fingerprintString = JSON.stringify(fingerprint);
+      let hash = 0;
+      for (let i = 0; i < fingerprintString.length; i++) {
+        const char = fingerprintString.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+      }
+      fingerprint.hash = Math.abs(hash).toString(16).toUpperCase();
+
+      return fingerprint;
+    }
+
+    function updateFingerprintDisplay(fp) {
+      document.getElementById('fp-useragent').textContent = fp.userAgent;
+      document.getElementById('fp-platform').textContent = fp.platform;
+      document.getElementById('fp-language').textContent = fp.language;
+      document.getElementById('fp-resolution').textContent = fp.screenResolution;
+      document.getElementById('fp-colordepth').textContent = fp.colorDepth + ' bits';
+      document.getElementById('fp-timezone').textContent = fp.timezone;
+      document.getElementById('fp-memory').textContent = fp.deviceMemory !== 'N/A' ? fp.deviceMemory + ' GB' : 'N/A';
+      document.getElementById('fp-cores').textContent = fp.hardwareConcurrency !== 'N/A' ? fp.hardwareConcurrency + ' cores' : 'N/A';
+      document.getElementById('fp-webgl').textContent = fp.webglRenderer || 'N/A';
+      document.getElementById('fp-canvas').textContent = fp.canvas;
+      document.getElementById('fp-audio').textContent = fp.audio;
+      document.getElementById('fp-fonts').textContent = fp.fonts;
+      document.getElementById('fingerprint-hash').textContent = 'Unique Fingerprint Hash: ' + fp.hash;
+    }
+
+    // Initialize fingerprint on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const fp = generateFingerprint();
+      updateFingerprintDisplay(fp);
+    });
+
+    // Refresh fingerprint
+    document.getElementById('refresh-fingerprint').addEventListener('click', () => {
+      const fp = generateFingerprint();
+      updateFingerprintDisplay(fp);
+    });
+
+    // Copy fingerprint hash
+    document.getElementById('copy-fingerprint').addEventListener('click', () => {
+      const hash = document.getElementById('fingerprint-hash').textContent.replace('Unique Fingerprint Hash: ', '');
+      navigator.clipboard.writeText(hash).then(() => {
+        alert('Fingerprint hash copied to clipboard!');
+      });
+    });
 
     const resources = [
       // Social Media
