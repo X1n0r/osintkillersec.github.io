@@ -2361,6 +2361,37 @@
           </div>
         </div>
 
+        <div class="visitors-section" style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 32px;">
+          <div class="section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <h2 style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: var(--accent); stroke-width: 1.5; fill: none;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Active Users
+            </h2>
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--success-bg); border: 1px solid var(--success); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--success);">
+              <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 1.5s infinite;"></span>
+              Live
+            </div>
+          </div>
+          <div class="table-container" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="padding: 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">IP Address</th>
+                  <th style="padding: 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Location</th>
+                  <th style="padding: 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Status</th>
+                  <th style="padding: 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">VPN/Tor</th>
+                  <th style="padding: 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">Last Seen</th>
+                </tr>
+              </thead>
+              <tbody id="active-users-table">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 16px;">Loading active users...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <div id="resources-container"></div>
 
         <footer class="footer">
@@ -2746,6 +2777,54 @@
 
     // Track visitor on page load
     trackVisitor();
+
+    // Render active users table
+    function renderActiveUsers() {
+      const tbody = document.getElementById('active-users-table');
+      const activeVisitors = visitors.filter(v => Date.now() - v.lastSeen < 300000);
+
+      if (activeVisitors.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted); padding: 16px;">No active users</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = activeVisitors.map((v, i) => {
+        const isActive = Date.now() - v.lastSeen < 60000;
+        const isVPN = v.isVPN || false;
+        const isTor = v.isTor || false;
+        const vpnProvider = v.vpnProvider || 'None';
+
+        let vpnStatus = '<span style="color: var(--success);">Direct</span>';
+        if (isTor) {
+          vpnStatus = '<span style="color: #9b59b6; font-weight: 600; display: flex; align-items: center; gap: 6px;"><svg viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Tor</span>';
+        } else if (isVPN) {
+          vpnStatus = `<span style="color: #e67e22; font-weight: 600; display: flex; align-items: center; gap: 6px;"><svg viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: currentColor; stroke-width: 2; fill: none;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> VPN (${vpnProvider})</span>`;
+        }
+
+        return `
+          <tr style="animation: fadeIn 0.3s ease-out forwards; opacity: 0; animation-delay: ${i * 0.05}s;">
+            <td style="padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text); border-bottom: 1px solid var(--border);">${v.ip}</td>
+            <td style="padding: 16px; font-size: 13px; color: var(--text); border-bottom: 1px solid var(--border);">${v.location || 'Unknown'}</td>
+            <td style="padding: 16px; border-bottom: 1px solid var(--border);">
+              <span style="padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; font-family: 'JetBrains Mono', monospace; background: ${isActive ? 'var(--success-bg)' : 'var(--bg-tertiary)'}; color: ${isActive ? 'var(--success)' : 'var(--text-muted)'}; border: 1px solid ${isActive ? 'var(--success)' : 'var(--border)'};">${isActive ? 'Active' : 'Offline'}</span>
+            </td>
+            <td style="padding: 16px; border-bottom: 1px solid var(--border);">${vpnStatus}</td>
+            <td style="padding: 16px; font-size: 13px; color: var(--text); border-bottom: 1px solid var(--border);">${new Date(v.lastSeen).toLocaleString()}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Update active users table every 5 seconds
+    setInterval(() => {
+      visitors = JSON.parse(localStorage.getItem('osint_visitors') || '[]');
+      renderActiveUsers();
+    }, 5000);
+
+    // Initial render
+    setTimeout(() => {
+      renderActiveUsers();
+    }, 1000);
 
     // Investigation System
     const investigationAPIs = {
