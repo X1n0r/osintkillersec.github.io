@@ -1762,36 +1762,52 @@
         transform: translateX(-100%);
         transition: transform 0.3s ease;
       }
-      
+
       .sidebar.open {
         transform: translateX(0);
       }
-      
+
       main {
         margin-left: 0;
         padding: 0 24px 32px;
       }
-      
+
       .header-btn {
         display: none;
       }
     }
-    
+
+    @media (max-width: 1200px) {
+      .request-stats-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .request-stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+      }
+    }
+
     @media (max-width: 640px) {
       .resources-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .hero h1 {
         font-size: 32px;
       }
-      
+
       .banner {
         height: 160px;
       }
-      
+
       .banner-title {
         font-size: 20px;
+      }
+
+      .request-stats-grid {
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
@@ -2361,6 +2377,48 @@
           </div>
         </div>
 
+        <div class="breach-search-section" style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 32px;">
+          <div class="section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <h2 style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: var(--accent); stroke-width: 1.5; fill: none;"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+              Database Breach Search
+            </h2>
+            <div style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: var(--success-bg); border: 1px solid var(--success); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--success);">
+              <span style="width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: pulse 1.5s infinite;"></span>
+              Live Search
+            </div>
+          </div>
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+            <input type="text" id="breach-search-input" placeholder="Enter email, username, or phone..." style="flex: 1; padding: 12px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 14px; font-family: inherit; transition: var(--transition); min-width: 250px;">
+            <select id="breach-search-type" style="padding: 12px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 14px; font-family: inherit; cursor: pointer; transition: var(--transition);">
+              <option value="email">Email</option>
+              <option value="username">Username</option>
+              <option value="phone">Phone</option>
+              <option value="domain">Domain</option>
+            </select>
+            <button id="breach-search-btn" style="padding: 12px 24px; background: var(--text); border: none; border-radius: var(--radius-sm); color: var(--bg); font-size: 14px; font-weight: 600; cursor: pointer; transition: var(--transition);">Search Breaches</button>
+          </div>
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary);">
+              <input type="checkbox" id="fuzzy-match" style="width: 16px; height: 16px;">
+              Fuzzy Match
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary);">
+              <input type="checkbox" id="case-sensitive" style="width: 16px; height: 16px;">
+              Case Sensitive
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary);">
+              <input type="checkbox" id="include-pastebins" style="width: 16px; height: 16px;">
+              Include Pastebins
+            </label>
+          </div>
+          <div id="breach-search-results" style="min-height: 200px;">
+            <div style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 14px;">
+              Enter an identifier and click Search to check for data breaches
+            </div>
+          </div>
+        </div>
+
         <div class="request-monitor-section" style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 32px;">
           <div class="section-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
             <h2 style="font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
@@ -2372,7 +2430,7 @@
               Monitoring
             </div>
           </div>
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 20px;">
+          <div class="request-stats-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 20px;">
             <div style="padding: 20px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md);">
               <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Total Requests</div>
               <div style="font-size: 32px; font-weight: 700; color: var(--text); font-family: 'JetBrains Mono', monospace;" id="stat-requests">0</div>
@@ -2388,6 +2446,10 @@
             <div style="padding: 20px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md);">
               <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Avg Response</div>
               <div style="font-size: 32px; font-weight: 700; color: var(--accent); font-family: 'JetBrains Mono', monospace;" id="stat-response">0ms</div>
+            </div>
+            <div style="padding: 20px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md);">
+              <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Breaches Checked</div>
+              <div style="font-size: 32px; font-weight: 700; color: #ef4444; font-family: 'JetBrains Mono', monospace;" id="stat-breaches">0</div>
             </div>
           </div>
           <div class="table-container" style="overflow-x: auto;">
@@ -2657,7 +2719,6 @@
 
     // Simple hardcoded credentials (for demo only - not secure!)
     const USERS = {
-      admin: ROOT_HASH,
       killer: KILLER_HASH,
       root: ROOT_HASH
     };
@@ -2677,6 +2738,8 @@
         if (user === 'killer' || user === 'root') {
           console.log('Showing admin button for user:', user);
           setTimeout(() => showAdminButton(), 100);
+        } else {
+          console.log('User does not have admin access:', user);
         }
       } else {
         loginModal.classList.add('open');
@@ -2876,6 +2939,9 @@
         ? Math.round(requests.reduce((sum, r) => sum + (r.responseTime || 0), 0) / requests.length)
         : 0;
       document.getElementById('stat-response').textContent = avgResponse + 'ms';
+
+      const breachCount = parseInt(localStorage.getItem('osint_breach_count') || '0');
+      document.getElementById('stat-breaches').textContent = breachCount;
     }
 
     function renderRequests() {
@@ -3102,6 +3168,185 @@
       }
     `;
     document.head.appendChild(style);
+
+    // Database Breach Search System
+    document.getElementById('breach-search-btn').addEventListener('click', async () => {
+      const query = document.getElementById('breach-search-input').value.trim();
+      const type = document.getElementById('breach-search-type').value;
+      const fuzzyMatch = document.getElementById('fuzzy-match').checked;
+      const caseSensitive = document.getElementById('case-sensitive').checked;
+      const includePastebins = document.getElementById('include-pastebins').checked;
+
+      if (!query) {
+        showToast('Please enter a search query', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('breach-search-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="loading-spinner"></span> Searching...';
+
+      const resultsContainer = document.getElementById('breach-search-results');
+      resultsContainer.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading-spinner-large"></div></div>';
+
+      try {
+        const results = await searchBreaches(query, type, fuzzyMatch, caseSensitive, includePastebins);
+        renderBreachResults(results, query);
+      } catch (error) {
+        resultsContainer.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--danger);">Error: ${error.message}</div>`;
+        showToast('Search failed', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Search Breaches';
+    });
+
+    async function searchBreaches(query, type, fuzzyMatch, caseSensitive, includePastebins) {
+      const results = [];
+
+      // Have I Been Pwned (for emails)
+      if (type === 'email') {
+        try {
+          const response = await fetch(`https://haveibeenpwned.com/api/v3/breachedaccount/${encodeURIComponent(query)}`, {
+            headers: {
+              'User-Agent': 'OSINT Archive'
+            }
+          });
+
+          if (response.ok) {
+            const breaches = await response.json();
+            breaches.forEach(breach => {
+              results.push({
+                source: 'Have I Been Pwned',
+                name: breach.Name,
+                title: breach.Title,
+                domain: breach.Domain,
+                breachDate: breach.BreachDate,
+                addedDate: breach.AddedDate,
+                pwnCount: breach.PwnCount,
+                description: breach.Description,
+                dataClasses: breach.DataClasses,
+                isVerified: breach.IsVerified,
+                isFabricated: breach.IsFabricated,
+                isSensitive: breach.IsSensitive,
+                isRetired: breach.IsRetired,
+                isSpamList: breach.IsSpamList
+              });
+            });
+          }
+        } catch (e) {
+          console.error('HIBP error:', e);
+        }
+      }
+
+      // EmailRep.io (for email reputation)
+      if (type === 'email') {
+        try {
+          const response = await fetch(`https://emailrep.io/query/${encodeURIComponent(query)}`);
+          if (response.ok) {
+            const data = await response.json();
+            results.push({
+              source: 'EmailRep.io',
+              name: 'Email Reputation',
+              reputation: data.reputation,
+              suspicious: data.suspicious,
+              references: data.references,
+              details: data.details ? data.details.length + ' sources' : '0',
+              summary: `${data.reputation} reputation, ${data.suspicious ? 'suspicious' : 'not suspicious'}`
+            });
+          }
+        } catch (e) {
+          console.error('EmailRep error:', e);
+        }
+      }
+
+      // Simulated results for demo (since real breach APIs require authentication)
+      if (results.length === 0) {
+        results.push({
+          source: 'Demo Database',
+          name: 'Public Breach Index',
+          summary: 'No real-time breach data available without API key',
+          note: 'To get real breach data, you need API keys from services like HIBP, DeHashed, etc.'
+        });
+      }
+
+      // Update breach count
+      const breachCount = parseInt(localStorage.getItem('osint_breach_count') || '0') + 1;
+      localStorage.setItem('osint_breach_count', breachCount.toString());
+
+      return results;
+    }
+
+    function renderBreachResults(results, query) {
+      const container = document.getElementById('breach-search-results');
+
+      if (results.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--success);">
+            <svg viewBox="0 0 24 24" style="width: 48px; height: 48px; stroke: var(--success); stroke-width: 2; fill: none; margin-bottom: 16px;">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">No Breaches Found</h3>
+            <p style="color: var(--text-secondary);">Good news! No data breaches found for "${query}"</p>
+          </div>
+        `;
+        showToast('No breaches found', 'success');
+        return;
+      }
+
+      let html = `<div style="display: flex; flex-direction: column; gap: 16px;">`;
+
+      results.forEach((result, index) => {
+        const riskLevel = result.isVerified ? 'high' : result.suspicious ? 'medium' : 'low';
+        const riskColor = riskLevel === 'high' ? 'var(--danger)' : riskLevel === 'medium' ? 'var(--warning)' : 'var(--success)';
+
+        html += `
+          <div style="padding: 20px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-md); animation: fadeIn 0.3s ease-out forwards; opacity: 0; animation-delay: ${index * 0.1}s;">
+            <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px;">
+              <div>
+                <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">${result.name}</h3>
+                <div style="font-size: 12px; color: var(--text-muted);">Source: ${result.source}</div>
+              </div>
+              <span style="padding: 4px 12px; background: ${riskColor}20; color: ${riskColor}; border: 1px solid ${riskColor}; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase;">${riskLevel} Risk</span>
+            </div>
+            ${result.summary ? `<p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">${result.summary}</p>` : ''}
+            ${result.description ? `<p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6;">${result.description.substring(0, 300)}...</p>` : ''}
+            ${result.dataClasses ? `
+              <div style="margin-top: 12px;">
+                <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;">Exposed Data:</div>
+                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                  ${result.dataClasses.slice(0, 6).map(dc => `<span style="padding: 4px 10px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; color: var(--text-secondary);">${dc}</span>`).join('')}
+                  ${result.dataClasses.length > 6 ? `<span style="padding: 4px 10px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; color: var(--text-muted);">+${result.dataClasses.length - 6} more</span>` : ''}
+                </div>
+              </div>
+            ` : ''}
+            ${result.pwnCount ? `
+              <div style="margin-top: 12px; padding: 12px; background: var(--danger-bg); border: 1px solid var(--danger); border-radius: var(--radius-sm);">
+                <div style="font-size: 12px; color: var(--danger); font-weight: 600;">
+                  ${result.pwnCount.toLocaleString()} accounts affected
+                </div>
+              </div>
+            ` : ''}
+            ${result.breachDate ? `
+              <div style="margin-top: 12px; font-size: 12px; color: var(--text-muted);">
+                <strong>Breach Date:</strong> ${new Date(result.breachDate).toLocaleDateString()}
+                ${result.addedDate ? ` | <strong>Added:</strong> ${new Date(result.addedDate).toLocaleDateString()}` : ''}
+              </div>
+            ` : ''}
+            ${result.note ? `
+              <div style="margin-top: 12px; padding: 12px; background: var(--warning-bg); border: 1px solid var(--warning); border-radius: var(--radius-sm); font-size: 12px; color: var(--warning);">
+                ${result.note}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      html += '</div>';
+      container.innerHTML = html;
+      showToast(`Found ${results.length} breach(es)`, 'info');
+    }
 
     // Initialize enhanced features
     document.addEventListener('DOMContentLoaded', () => {
