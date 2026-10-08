@@ -1021,7 +1021,140 @@
           }
         });
       });
+
+      // Add export buttons
+      addExportButtons();
     });
+
+    // Toast Notification System
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'var(--success)',
+        error: 'var(--danger)',
+        warning: 'var(--warning)',
+        info: 'var(--accent)'
+      };
+
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 16px 24px;
+        background: var(--bg-secondary);
+        border: 1px solid ${colors[type]};
+        border-radius: var(--radius-md);
+        color: var(--text);
+        font-size: 14px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      `;
+
+      toast.innerHTML = `
+        <svg viewBox="0 0 24 24" style="width: 20px; height: 20px; stroke: ${colors[type]}; stroke-width: 2; fill: none;">
+          ${type === 'success' ? '<polyline points="20 6 9 17 4 12"/>' :
+            type === 'error' ? '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>' :
+            type === 'warning' ? '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>' :
+            '<circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>'}
+        </svg>
+        ${message}
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out forwards';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Export Data Functions
+    function exportToCSV(data, filename) {
+      if (!data || data.length === 0) {
+        showToast('No data to export', 'warning');
+        return;
+      }
+
+      const headers = Object.keys(data[0]);
+      const csvContent = [
+        headers.join(','),
+        ...data.map(row => headers.map(header => {
+          const value = row[header];
+          const escaped = String(value).replace(/"/g, '""');
+          return `"${escaped}"`;
+        }).join(','))
+      ].join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      showToast('Data exported successfully', 'success');
+    }
+
+    function exportToJSON(data, filename) {
+      if (!data || data.length === 0) {
+        showToast('No data to export', 'warning');
+        return;
+      }
+
+      const jsonContent = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+      showToast('Data exported successfully', 'success');
+    }
+
+    // Add export buttons to sections
+    function addExportButtons() {
+      const sections = [
+        { selector: '.visitors-section', name: 'visitors' },
+        { selector: '.banned-section', name: 'banned-ips' }
+      ];
+
+      sections.forEach(({ selector, name }) => {
+        const header = document.querySelector(selector + ' .section-header');
+        if (header) {
+          const exportDiv = document.createElement('div');
+          exportDiv.style.cssText = 'display: flex; gap: 8px;';
+          exportDiv.innerHTML = `
+            <button onclick="exportToCSV(${name === 'visitors' ? 'visitors' : 'bannedIPs'}, '${name}.csv')" style="padding: 8px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 12px; cursor: pointer; transition: var(--transition);">Export CSV</button>
+            <button onclick="exportToJSON(${name === 'visitors' ? 'visitors' : 'bannedIPs'}, '${name}.json')" style="padding: 8px 16px; background: var(--bg-tertiary); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 12px; cursor: pointer; transition: var(--transition);">Export JSON</button>
+          `;
+          header.appendChild(exportDiv);
+        }
+      });
+    }
+
+    // Copy to Clipboard
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard', 'success');
+      }).catch(() => {
+        showToast('Failed to copy', 'error');
+      });
+    }
+
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+      @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
